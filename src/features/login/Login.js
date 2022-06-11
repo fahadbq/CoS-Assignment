@@ -4,9 +4,14 @@ import * as Yup from 'yup'
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-const Login = (props) => {  
+import { useDispatch } from 'react-redux'
+import { getAsyncUser } from './loginSlice'
 
+const Login = (props) => {  
+  
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+
+  const dispatch = useDispatch()
 
   const initialValues={
     email: "",
@@ -31,6 +36,7 @@ const Login = (props) => {
         validationSchema={validationSchema}
         onSubmit={(values, {resetForm}) => {
           console.log(values) 
+          dispatch(getAsyncUser(values))
         }}
       >
         {({ errors, touched, dirty, isValid }) => (
@@ -43,7 +49,7 @@ const Login = (props) => {
             { errors.email && touched.email ? <span className='error' > {errors.email} </span> : null}
             <br />
 
-            <Field type="text" 
+            <Field type="password" 
               name="password" 
               placeholder="Enter your Password" 
               className='form-control' 
