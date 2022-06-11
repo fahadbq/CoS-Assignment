@@ -4,7 +4,9 @@ import * as Yup from 'yup'
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-const Login = (props) => {
+const Login = (props) => {  
+
+  const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 
   const initialValues={
     email: "",
@@ -13,14 +15,16 @@ const Login = (props) => {
 
   const validationSchema = Yup.object({
     email: Yup.string()
-      .email("Please enter your email."),
+      .required("Enter your email")
+      .email("Invalid email"),
     password: Yup.string()
         .required("Enter your password")
-        .min(7, "Minimum 4 characters")
+        .min(5, "Minimum 5 characters")
+        .matches(passwordRules, {message: "Create a stronger password"})
   })
 
   return (
-    <div className="nav__links">
+    <div className="nav__item">
       <h2> Login </h2>
       <Formik 
         initialValues={initialValues}
@@ -29,18 +33,26 @@ const Login = (props) => {
           console.log(values) 
         }}
       >
-        {({ errros, touched, dirty, isValid }) => (
+        {({ errors, touched, dirty, isValid }) => (
           <Form >
             <Field type="email" 
               name="email" 
               placeholder="Enter your Email" 
               className='form-control'
-            /> <br />
+            /> 
+            { errors.email && touched.email ? <span className='error' > {errors.email} </span> : null}
+            <br />
 
-            <Field type="text" name="password" placeholder="Enter your Password" className='form-control' /> <br />
+            <Field type="text" 
+              name="password" 
+              placeholder="Enter your Password" 
+              className='form-control' 
+            /> 
+            { errors.password && touched.password ? <span className='error' > {errors.password} </span> : null}
+            <br />
             
             <div className="d-grid gap-2" >
-              <Button type="submit" className='form__field' size="sm" > Login </Button>
+              <Button type="submit" className='form__field text-light' size="sm" disabled={ !dirty || !isValid } > Login </Button>
             </div>
           </Form>
         )}

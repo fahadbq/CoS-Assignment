@@ -8,7 +8,7 @@ import Login from './features/login/Login'
 const NavBar = (props) => {
   return (
     <div >
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" className="nav__links" >
         <Container>
           <Nav>
             <NavLink to="/" > Sign In </NavLink>

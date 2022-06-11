@@ -4,7 +4,19 @@
 
 .nav__links {
   display: flex;
+  position: sticky;
+  justify-content: center;
+}
+
+.nav__item {
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+}
+
+.error{
+  position: absolute;
+  color: red;
+  font-size: .7rem;
 }
