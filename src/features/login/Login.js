@@ -5,7 +5,7 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 
 import { useDispatch } from 'react-redux'
-import { getAsyncUser } from './loginSlice'
+import { loginAsyncUser } from './loginSlice'
 
 const Login = (props) => {  
   
@@ -36,7 +36,7 @@ const Login = (props) => {
         validationSchema={validationSchema}
         onSubmit={(values, {resetForm}) => {
           console.log(values) 
-          dispatch(getAsyncUser(values))
+          dispatch(loginAsyncUser(values))
         }}
       >
         {({ errors, touched, dirty, isValid }) => (

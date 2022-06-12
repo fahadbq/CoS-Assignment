@@ -2,14 +2,29 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../config/axios'
 
 
-export const getAsyncUser = createAsyncThunk("user/getAsyncUser", async (formdata) => {
+export const loginAsyncUser = createAsyncThunk("user/getAsyncUser", async (formdata) => {
 
-    console.log("we made it", formdata)
     try {
         const response = await axios.post(`/auth/login`, formdata )
         localStorage.setItem("token", response.data.token)
         console.log(response.data) // navigate to admin and make client component as well.
+        // return response.data
     } 
+    catch (error) {
+        console.log(error.message)
+    }
+})
+
+export const getAsyncUser = createAsyncThunk("user/getAsyncUser", async () => {
+    
+    try {
+        const response = await axios.get("/admins", {
+            headers: {
+                Authentication: localStorage.getItem("token")
+            } 
+        })
+        console.log("get admin details", response.data)
+    }
     catch (error) {
         console.log(error.message)
     }
