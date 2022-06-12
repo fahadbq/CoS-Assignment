@@ -3,7 +3,9 @@ import React from 'react'
 import { Navbar, Container, Nav, NavLink } from 'react-bootstrap'
 import { Routes, Route } from 'react-router-dom'
 
+// Components
 import Login from './features/login/Login'
+import AccountContainer from './features/account/AccountContainer'
 
 const NavBar = (props) => {
   return (
@@ -12,6 +14,7 @@ const NavBar = (props) => {
         <Container>
           <Nav>
             <NavLink to="/" > Sign In </NavLink>
+            <NavLink to="/account"> Account </NavLink>
           </Nav>
         </Container>
       </Navbar>
@@ -19,6 +22,7 @@ const NavBar = (props) => {
       {/* Route session */}
       <Routes >
         <Route path="/" element={<Login />} /> 
+        <Route path="/account" element={<AccountContainer />} /> 
       </Routes>
     </div>
   )

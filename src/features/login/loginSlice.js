@@ -7,24 +7,8 @@ export const loginAsyncUser = createAsyncThunk("user/getAsyncUser", async (formd
     try {
         const response = await axios.post(`/auth/login`, formdata )
         localStorage.setItem("token", response.data.token)
-        console.log(response.data) // navigate to admin and make client component as well.
-        // return response.data
+        console.log(response.data) 
     } 
-    catch (error) {
-        console.log(error.message)
-    }
-})
-
-export const getAsyncUser = createAsyncThunk("user/getAsyncUser", async () => {
-    
-    try {
-        const response = await axios.get("/admins", {
-            headers: {
-                Authentication: localStorage.getItem("token")
-            } 
-        })
-        console.log("get admin details", response.data)
-    }
     catch (error) {
         console.log(error.message)
     }
@@ -42,18 +26,6 @@ const userSlice = createSlice({
             state.data = action.payload
         }
     },
-    extraReducers: {
-        [getAsyncUser.pending]: () => {
-            console.log("pending")
-        },
-        [getAsyncUser.fulfilled]: (state, action) => {
-            console.log("fulfilled")
-            return {...state, data: action.payload }
-        },
-        [getAsyncUser.rejected]: () => {
-            console.log("rejected")
-        }
-    } 
 })
 
 export const { addUser } = userSlice.actions 
