@@ -1,14 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../config/axios'
+import { getAsyncAdmins } from '../admins/AdminsSlice'
 
+export const loginAsyncUser = createAsyncThunk("user/loginAsyncUser", async ({ values, resetForm, handleAuth, pushAccPath, dispatch } ) => { // Login path
 
-export const loginAsyncUser = createAsyncThunk("user/getAsyncUser", async (formdata) => {
+    console.log(handleAuth, pushAccPath)
 
     try {
-        const response = await axios.post(`/auth/login`, formdata )
+        const response = await axios.post(`/auth/login`, values)
         localStorage.setItem("token", response.data.token)
-        console.log(response.data) 
-    } 
+        resetForm({ values: "" }) 
+        pushAccPath()
+        handleAuth(true)
+        dispatch(getAsyncAdmins())
+        console.log(response.data)
+    }
     catch (error) {
         console.log(error.message)
     }
@@ -21,12 +27,6 @@ const initialState = {
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {
-        addUser (state, action) {
-            state.data = action.payload
-        }
-    },
 })
 
-export const { addUser } = userSlice.actions 
 export default userSlice.reducer

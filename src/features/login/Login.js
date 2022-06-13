@@ -6,12 +6,14 @@ import { Button } from 'react-bootstrap'
 
 import { useDispatch } from 'react-redux'
 import { loginAsyncUser } from './loginSlice'
+import { useNavigate } from 'react-router-dom'
 
-const Login = (props) => {  
-  
+const Login = ({ handleAuth }) => {  
+
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const initialValues={
     email: "",
@@ -29,14 +31,26 @@ const Login = (props) => {
   })
 
   return (
-    <div className="nav__item">
+    <div className="nav__component">
       <h2> Login </h2>
       <Formik 
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, {resetForm}) => {
-          console.log(values) 
-          dispatch(loginAsyncUser(values))
+            
+          const pushAccPath = () => {
+            return navigate("/admins")
+          }
+
+          const onValuesSubmit = {
+            values,
+            resetForm,
+            handleAuth,
+            pushAccPath,
+            dispatch
+          }
+
+          dispatch(loginAsyncUser(onValuesSubmit))
         }}
       >
         {({ errors, touched, dirty, isValid }) => (

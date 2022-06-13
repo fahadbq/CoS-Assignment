@@ -1,28 +1,50 @@
 
 import React from 'react'
 import { Navbar, Container, Nav, NavLink } from 'react-bootstrap'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 // Components
 import Login from './features/login/Login'
-import AccountContainer from './features/account/AccountContainer'
+import AdminsContainer from './features/admins/AdminsContainer'
+import AdminDetails from './features/admins/AdminDetails'
 
-const NavBar = (props) => {
+const NavBar = ({userLoggedIn, handleAuth}) => {
+
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    const confirm = window.confirm("are you sure")
+    if(confirm) {
+      localStorage.removeItem("token")
+      handleAuth()
+      navigate('/')
+    }
+  }
+
   return (
     <div >
-      <Navbar bg="dark" variant="dark" className="nav__links" >
+      <Navbar bg="dark" variant="dark">
         <Container>
-          <Nav>
-            <NavLink to="/" > Sign In </NavLink>
-            <NavLink to="/account"> Account </NavLink>
+          <Nav className='nav__links'>
+            { userLoggedIn ? (
+              <>
+                <NavLink href="/admins"> Admins </NavLink>
+                <NavLink onClick={handleLogout} > Logout </NavLink>
+              </>
+            ) : (
+              <>
+              <NavLink href="/" > Sign In </NavLink>
+              </>
+            )}
           </Nav>
         </Container>
       </Navbar>
 
       {/* Route session */}
       <Routes >
-        <Route path="/" element={<Login />} /> 
-        <Route path="/account" element={<AccountContainer />} /> 
+        <Route path="/" element={<Login handleAuth={handleAuth} />} /> 
+        <Route path="/admins" element={<AdminsContainer />} />
+        <Route path="/admins/:adminId" element={<AdminDetails /> } />
       </Routes>
     </div>
   )

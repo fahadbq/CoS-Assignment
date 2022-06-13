@@ -1,22 +1,33 @@
-* { 
+* {
   margin: 0;
 }
 
 .nav__links {
   display: flex;
-  position: sticky;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-.nav__item {
+.nav__container {
+  display: flex;
+}
+
+.nav__component {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+  justify-content: center;
+  max-width: 100%;
 }
 
-.error{
+.nav__form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-left: 50px;
+  padding: 20px;
+}
+
+.error {
   position: absolute;
   color: red;
-  font-size: .7rem;
+  font-size: 0.7rem;
 }
