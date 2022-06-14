@@ -25,6 +25,19 @@ const AdminDetails = (props) => {
         id: 0,
       },
     },
+    address: {
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zipCode: "",
+    },
+    practices: [
+      {
+        id: 0,
+        name: "string",
+      },
+    ],
   };
 
   const validationSchema = Yup.object({});
@@ -67,14 +80,14 @@ const AdminDetails = (props) => {
             <Row className="mb-3">
               <Form.Group className="col-md-4">
                 <TextField
-                  label="Title"
+                  label="Phone Number"
                   type="text"
-                  name="title"
-                  placeholder="Title"
+                  name="primaryPhoneNumber"
+                  placeholder="Enter your Phone Number"
                 />
               </Form.Group>
 
-              <Form.Group className="col-md-4">
+              <Form.Group className="col-md-2">
                 <TextField
                   label="Extension"
                   type="text"
@@ -83,27 +96,16 @@ const AdminDetails = (props) => {
                 />
               </Form.Group>
 
-              <Form.Group className="col-md-4">
+              <Form.Group className="col-md-3">
                 <TextField
-                  label="Phone Number"
+                  label="Title"
                   type="text"
-                  name="primaryPhoneNumber"
-                  placeholder="Enter your Phone Number"
-                />
-              </Form.Group>
-            </Row>
-
-            <Row className="mb-3">
-              <Form.Group className="col-md-8">
-                <TextField
-                  label="Email"
-                  type="email"
-                  name="person.email"
-                  placeholder="Please enter your Email"
+                  name="title"
+                  placeholder="Title"
                 />
               </Form.Group>
 
-              <Form.Group className="col-md-4">
+              <Form.Group className="col-md-3">
                 <TextField
                   label="Hire Date"
                   type="date"
@@ -114,7 +116,16 @@ const AdminDetails = (props) => {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group className="col-md-6">
+              <Form.Group className="col-md-5">
+                <TextField
+                  label="Email"
+                  type="email"
+                  name="person.email"
+                  placeholder="Please enter your Email"
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-3">
                 <TextField
                   label="Secret"
                   type="text"
@@ -123,7 +134,7 @@ const AdminDetails = (props) => {
                 />
               </Form.Group>
 
-              <Form.Group className="col-md-3">
+              <Form.Group className="col-md-2">
                 <TextField
                   label="Hours"
                   type="text"
@@ -132,12 +143,79 @@ const AdminDetails = (props) => {
                 />
               </Form.Group>
 
-              <Form.Group className="col-md-3">
+              <Form.Group className="col-md-2">
                 <TextField
                   label="Id"
                   type="number"
                   name="person.role.id"
                   placeholder="Id"
+                />
+              </Form.Group>
+            </Row>
+
+            <Row className="mb-3">
+              <Form.Group className="col-md-5">
+                <TextField
+                  label="Address1"
+                  type="text"
+                  name="address.address1"
+                  placeholder="Address1"
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-5">
+                <TextField
+                  label="Address2"
+                  type="text"
+                  name="address.address2"
+                  placeholder="Address"
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-2">
+                <TextField
+                  label="Zip Code"
+                  type="text"
+                  name="address.zipCode"
+                  placeholder="Zip Code"
+                />
+              </Form.Group>
+            </Row>
+
+            <Row className="mb-3">
+              <Form.Group className="col-md-4">
+                <TextField
+                  label="City"
+                  type="text"
+                  name="address.city"
+                  placeholder="City"
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-3">
+                <TextField
+                  label="State"
+                  type="text"
+                  name="address.state"
+                  placeholder="State"
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-2">
+                <TextField
+                  label="Practice Id"
+                  type="text"
+                  name="practices[0].id"
+                  placeholder="Id"
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-3">
+                <TextField
+                  label="Practice Name"
+                  type="text"
+                  name="practices[0].name"
+                  placeholder="Name"
                 />
               </Form.Group>
             </Row>
