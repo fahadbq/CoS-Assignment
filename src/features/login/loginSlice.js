@@ -1,32 +1,34 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from '../../config/axios'
-import { getAsyncAdmins } from '../admins/AdminsSlice'
+import axios from "../../config/axios";
+import { getAsyncAdmins } from "../admins/AdminsSlice";
 
-export const loginAsyncUser = createAsyncThunk("user/loginAsyncUser", async ({ values, resetForm, handleAuth, pushAccPath, dispatch } ) => { // Login path
+export const loginAsyncUser = createAsyncThunk(
+  "user/loginAsyncUser",
+  async ({ loginFormData, resetForm, handleAuth, pushAccPath, dispatch }) => {
+    // Login path
 
-    console.log(handleAuth, pushAccPath)
+    console.log(handleAuth, pushAccPath);
 
     try {
-        const response = await axios.post(`/auth/login`, values)
-        localStorage.setItem("token", response.data.token)
-        resetForm({ values: "" }) 
-        pushAccPath()
-        handleAuth(true)
-        dispatch(getAsyncAdmins())
-        console.log(response.data)
+      const response = await axios.post(`/auth/login`, loginFormData);
+      localStorage.setItem("token", response.data.token);
+      resetForm({ values: "" });
+      pushAccPath();
+      handleAuth(true);
+      dispatch(getAsyncAdmins());
+    } catch (error) {
+      alert("Login error", error.message);
     }
-    catch (error) {
-        console.log(error.message)
-    }
-})
+  }
+);
 
 const initialState = {
-    data: []
-}
+  data: [],
+};
 
 const userSlice = createSlice({
-    name: "user",
-    initialState,
-})
+  name: "user",
+  initialState,
+});
 
-export default userSlice.reducer
+export default userSlice.reducer;

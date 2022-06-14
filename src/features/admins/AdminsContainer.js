@@ -4,12 +4,10 @@ import { ListGroup } from "react-bootstrap";
 import { getAllAdmins } from "./AdminsSlice";
 import { Link } from "react-router-dom";
 
-import AdminDetails from "../admins/AdminDetails";
+import AdminDetails from "./AdminForm";
 
 const AdminsContainer = (props) => {
   const admins = useSelector(getAllAdmins);
-
-  console.log(admins);
 
   return (
     <div className="nav__container">

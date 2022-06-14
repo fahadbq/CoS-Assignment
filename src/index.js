@@ -1,20 +1,22 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./index.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const container = document.getElementById('root');
+const container = document.getElementById("root");
 const root = createRoot(container);
 
-console.log(store.getState())
+store.subscribe(() => {
+  console.log(store.getState());
+});
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter >
+    <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
