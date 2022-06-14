@@ -79,7 +79,6 @@ const AdminDetails = (props) => {
       adminFormData: values,
       resetForm,
     };
-    console.log(values);
     dispatch(createAsyncAdmin(onValuesSubmit));
   };
 
@@ -271,7 +270,7 @@ const AdminDetails = (props) => {
               <Form.Group className="col-md-2">
                 <TextField
                   label="Practice Id"
-                  type="text"
+                  type="number"
                   name="practices[0].id"
                   placeholder="Id"
                   errors={errors.practices ? errors.practices[0].id : null}

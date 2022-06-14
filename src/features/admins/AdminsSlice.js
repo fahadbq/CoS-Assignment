@@ -10,6 +10,7 @@ export const getAsyncAdmins = createAsyncThunk(
           Authorization: localStorage.getItem("token"),
         },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       alert("getAdmins Error", error.message);
@@ -20,6 +21,7 @@ export const getAsyncAdmins = createAsyncThunk(
 export const createAsyncAdmin = createAsyncThunk(
   "admins/createAsyncAdmin",
   async ({ adminFormData, resetForm }) => {
+    console.log("reading form in asyn operation", adminFormData);
     try {
       const response = await axios.post("/admins", adminFormData, {
         headers: {
@@ -27,9 +29,9 @@ export const createAsyncAdmin = createAsyncThunk(
         },
       });
       console.log(response.data);
-      return response.data;
+      //   return response.data;
     } catch (error) {
-      console.log(error.message);
+      alert("Create admin error", error.message);
     }
   }
 );
@@ -61,11 +63,15 @@ const adminsSlice = createSlice({
     },
     [createAsyncAdmin.fulfilled]: (state, action) => {
       console.log("fulfilled");
-      return { ...state, data: action.payload, loading: false };
+      return {
+        ...state,
+        data: [state.data, { ...action.payload }],
+        loading: false,
+      };
     },
     [createAsyncAdmin.rejected]: (state, action) => {
       console.log("rejected");
-      return { ...state, loading: true, stauts: action.payload };
+      return { ...state, loading: true, status: action.payload };
     },
   },
 });
@@ -74,4 +80,18 @@ export const getAllAdmins = (state) => state.admins;
 
 export default adminsSlice.reducer;
 
-//figure out how to read data from the accounts and make a list of account data
+//got reponse status
+
+// {
+//     "id": 286,
+//     "firstName": "Oscar",
+//     "lastName": "martinez",
+//     "person": {
+//       "id": 680,
+//       "email": "hi@example.com",
+//       "role": {
+//         "id": 3,
+//         "name": null
+//       }
+//     }
+//   }

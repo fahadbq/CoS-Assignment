@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 // Components
 import Login from "./features/login/Login";
 import AdminsContainer from "./features/admins/AdminsContainer";
-import AdminDetails from "./features/admins/AdminForm";
+import AdminDetails from "./features/admins/AdminDetails";
 
 const NavBar = ({ userLoggedIn, handleAuth }) => {
   const navigate = useNavigate();
