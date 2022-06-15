@@ -34,14 +34,14 @@ const Login = ({ handleAuth }) => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, { resetForm }) => {
+        onSubmit={(values, onSubmitProps) => {
           const pushAccPath = () => {
             return navigate("/admins");
           };
 
           const onValuesSubmit = {
             loginFormData: values,
-            resetForm,
+            onSubmitProps,
             handleAuth,
             pushAccPath,
             dispatch,

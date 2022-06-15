@@ -4,7 +4,7 @@ import { ListGroup } from "react-bootstrap";
 import { getAllAdmins } from "./AdminsSlice";
 import { Link } from "react-router-dom";
 
-import AdminDetails from "./AdminForm";
+import AdminForm from "./AdminForm";
 
 const AdminsContainer = (props) => {
   const admins = useSelector(getAllAdmins);
@@ -13,7 +13,7 @@ const AdminsContainer = (props) => {
     <div className="nav__container">
       <ListGroup style={{ postion: "relative", width: "220px" }}>
         {admins.loading === false &&
-          admins?.data?.data?.map((admin) => {
+          admins.data.map((admin) => {
             return (
               <ListGroup.Item key={admin.id}>
                 <Link to={`/admins/${admin.id}`}>{admin?.firstName}</Link>
@@ -21,7 +21,8 @@ const AdminsContainer = (props) => {
             );
           })}
       </ListGroup>
-      <AdminDetails />
+
+      <AdminForm />
     </div>
   );
 };

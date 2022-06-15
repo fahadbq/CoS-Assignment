@@ -5,7 +5,9 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 // Components
 import Login from "./features/login/Login";
 import AdminsContainer from "./features/admins/AdminsContainer";
-import AdminDetails from "./features/admins/AdminDetails";
+import AdminEdit from "./features/admins/AdminEdit";
+
+import ClientsContainer from "./features/clientsComp/ClientsContainer";
 
 const NavBar = ({ userLoggedIn, handleAuth }) => {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
             {userLoggedIn ? (
               <>
                 <NavLink href="/admins"> Admins </NavLink>
+                <NavLink href="/clients"> Clients </NavLink>
                 <NavLink onClick={handleLogout}> Logout </NavLink>
               </>
             ) : (
@@ -42,7 +45,8 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
       <Routes>
         <Route path="/" element={<Login handleAuth={handleAuth} />} />
         <Route path="/admins" element={<AdminsContainer />} />
-        <Route path="/admins/:adminId" element={<AdminDetails />} />
+        <Route path="/admins/:adminId" element={<AdminEdit />} />
+        <Route path="/clients" element={<ClientsContainer />} />
       </Routes>
     </div>
   );

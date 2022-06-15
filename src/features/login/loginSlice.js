@@ -4,15 +4,17 @@ import { getAsyncAdmins } from "../admins/AdminsSlice";
 
 export const loginAsyncUser = createAsyncThunk(
   "user/loginAsyncUser",
-  async ({ loginFormData, resetForm, handleAuth, pushAccPath, dispatch }) => {
-    // Login path
-
-    console.log(handleAuth, pushAccPath);
-
+  async ({
+    loginFormData,
+    onSubmitProps,
+    handleAuth,
+    pushAccPath,
+    dispatch,
+  }) => {
     try {
       const response = await axios.post(`/auth/login`, loginFormData);
       localStorage.setItem("token", response.data.token);
-      resetForm({ values: "" });
+      onSubmitProps.resetForm();
       pushAccPath();
       handleAuth(true);
       dispatch(getAsyncAdmins());

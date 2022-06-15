@@ -7,10 +7,9 @@ export const getAsyncAdmins = createAsyncThunk(
     try {
       const response = await axios.get("/admins", {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: `${localStorage.getItem("token")}`,
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       alert("getAdmins Error", error.message);
@@ -18,20 +17,59 @@ export const getAsyncAdmins = createAsyncThunk(
   }
 );
 
+export const asyncGetAdmin = createAsyncThunk(
+  "admins/asyncGetAdmin",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`/admins/${id}`, {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const createAsyncAdmin = createAsyncThunk(
   "admins/createAsyncAdmin",
-  async ({ adminFormData, resetForm }) => {
+  async ({ adminFormData, onSubmitProps }, { rejectWithValue }) => {
     console.log("reading form in asyn operation", adminFormData);
     try {
       const response = await axios.post("/admins", adminFormData, {
         headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      });
+      onSubmitProps.resetForm();
+      return response.data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteAsyncAdmin = createAsyncThunk(
+  "admins/deleteAsyncAdmins",
+  async ({ id, navigate }) => {
+    try {
+      const response = await axios.delete(`/admins/${id}`, {
+        headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      console.log(response.data);
-      //   return response.data;
+      navigate("/admins");
+      return id;
     } catch (error) {
-      alert("Create admin error", error.message);
+      alert("DeleteAdmin Error", error.message);
     }
   }
 );
@@ -39,39 +77,50 @@ export const createAsyncAdmin = createAsyncThunk(
 const initialState = {
   loading: true,
   data: [],
-  status: null,
+  errors: "",
+  oneData: {},
 };
 
 const adminsSlice = createSlice({
   name: "admins",
   initialState,
   extraReducers: {
-    [getAsyncAdmins.pending]: (state) => {
-      return { ...state, loading: true };
-    },
     [getAsyncAdmins.fulfilled]: (state, action) => {
-      return { ...state, data: action.payload, loading: false };
+      return { ...state, data: action.payload.data, loading: false };
     },
     [getAsyncAdmins.rejected]: (state, action) => {
       return { ...state, loading: true, status: action.payload };
     },
 
-    // Create Admin
-    [createAsyncAdmin.pending]: (state) => {
-      console.log("pending");
-      return { ...state, loading: true };
+    //Get an Admin by id
+    [asyncGetAdmin.fulfilled]: (state, action) => {
+      console.log("fulfilled");
+      state.oneData = action.payload;
     },
+    [asyncGetAdmin.rejected]: (state, action) => {
+      state.errors = action.payload.message;
+      alert(action.payload.message);
+    },
+
+    // Create Admin
     [createAsyncAdmin.fulfilled]: (state, action) => {
       console.log("fulfilled");
-      return {
-        ...state,
-        data: [state.data, { ...action.payload }],
-        loading: false,
-      };
+      state.data = [action.payload, ...state.data];
+      state.loading = false;
     },
     [createAsyncAdmin.rejected]: (state, action) => {
+      state.errors = action.payload.message;
+      alert(action.payload.message);
+    },
+
+    //Delete Admin
+    [deleteAsyncAdmin.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.data = state.data.filter((ele) => ele.id !== action.payload);
+    },
+    [deleteAsyncAdmin.rejected]: (state) => {
       console.log("rejected");
-      return { ...state, loading: true, status: action.payload };
+      return { ...state, loading: true };
     },
   },
 });
@@ -79,19 +128,3 @@ const adminsSlice = createSlice({
 export const getAllAdmins = (state) => state.admins;
 
 export default adminsSlice.reducer;
-
-//got reponse status
-
-// {
-//     "id": 286,
-//     "firstName": "Oscar",
-//     "lastName": "martinez",
-//     "person": {
-//       "id": 680,
-//       "email": "hi@example.com",
-//       "role": {
-//         "id": 3,
-//         "name": null
-//       }
-//     }
-//   }
