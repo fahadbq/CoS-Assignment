@@ -5,9 +5,10 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 // Components
 import Login from "./features/login/Login";
 import AdminsContainer from "./features/admins/AdminsContainer";
-import AdminEdit from "./features/admins/AdminEdit";
+import EditAdmin from "./features/admins/EditAdmin";
 
 import ClientsContainer from "./features/clientsComp/ClientsContainer";
+import EditClient from "./features/clientsComp/ClientEdit";
 
 const NavBar = ({ userLoggedIn, handleAuth }) => {
   const navigate = useNavigate();
@@ -45,8 +46,9 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
       <Routes>
         <Route path="/" element={<Login handleAuth={handleAuth} />} />
         <Route path="/admins" element={<AdminsContainer />} />
-        <Route path="/admins/:adminId" element={<AdminEdit />} />
+        <Route path="/admins/:adminId" element={<EditAdmin />} />
         <Route path="/clients" element={<ClientsContainer />} />
+        <Route path="/clients/:clientId" element={<EditClient />} />
       </Routes>
     </div>
   );

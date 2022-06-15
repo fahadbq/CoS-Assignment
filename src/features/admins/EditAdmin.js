@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteAsyncAdmin } from "../admins/AdminsSlice";
+import { deleteAsyncAdmin } from "./AdminsSlice";
 
 import AdminDetails from "./AdminDetails";
 
-const AdminEdit = (props) => {
+const EditAdmin = (props) => {
   const [toggleEdit, SetToggleEdit] = useState(true);
 
   const navigate = useNavigate();
@@ -45,4 +45,4 @@ const AdminEdit = (props) => {
   );
 };
 
-export default AdminEdit;
+export default EditAdmin;

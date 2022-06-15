@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { Form, Row, Button } from "react-bootstrap";
+import { Row, Button } from "react-bootstrap";
 import TextField from "../../helper/TextField";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -79,6 +79,7 @@ const AdminDetails = ({
       adminFormData: values,
       onSubmitProps,
     };
+    console.log(onValuesSubmit);
     formSubmission(onValuesSubmit);
     // dispatch(asyncUpdateAdmin(onValuesSubmit));
   };
@@ -92,10 +93,10 @@ const AdminDetails = ({
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleSubmit, errors, touched }) => (
-          <Form onSubmit={handleSubmit}>
+        {({ errors, touched }) => (
+          <Form>
             <Row className="mb-4">
-              <Form.Group className="col-md-6">
+              <div className="col-md-6">
                 <TextField
                   label="First Name"
                   type="text"
@@ -105,9 +106,9 @@ const AdminDetails = ({
                   touched={touched.firstName}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-6">
+              <div className="col-md-6">
                 <TextField
                   label="Last Name"
                   type="text"
@@ -117,10 +118,10 @@ const AdminDetails = ({
                   touched={touched.lastName}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
             <Row className="mb-4">
-              <Form.Group className="col-md-4">
+              <div className="col-md-4">
                 <TextField
                   label="Phone Number"
                   type="text"
@@ -130,9 +131,9 @@ const AdminDetails = ({
                   touched={touched.primaryPhoneNumber}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Extension"
                   type="text"
@@ -142,9 +143,9 @@ const AdminDetails = ({
                   touched={touched.extension}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
+              <div className="col-md-3">
                 <TextField
                   label="Title"
                   type="text"
@@ -154,9 +155,9 @@ const AdminDetails = ({
                   touched={touched.title}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
+              <div className="col-md-3">
                 <TextField
                   label="Hire Date"
                   type="date"
@@ -166,10 +167,10 @@ const AdminDetails = ({
                   touched={touched.hireDate}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
             <Row className="mb-4">
-              <Form.Group className="col-md-5">
+              <div className="col-md-5">
                 <TextField
                   label="Email"
                   type="email"
@@ -179,9 +180,9 @@ const AdminDetails = ({
                   touched={touched.person?.email}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Hours"
                   type="text"
@@ -191,9 +192,9 @@ const AdminDetails = ({
                   touched={touched.hours}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Id"
                   type="number"
@@ -203,10 +204,10 @@ const AdminDetails = ({
                   touched={touched.person?.role?.id}
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
             <Row className="mb-4">
-              <Form.Group className="col-md-5">
+              <div className="col-md-5">
                 <TextField
                   label="Address1"
                   type="text"
@@ -214,9 +215,9 @@ const AdminDetails = ({
                   placeholder="Address"
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-5">
+              <div className="col-md-5">
                 <TextField
                   label="Address2"
                   type="text"
@@ -224,9 +225,9 @@ const AdminDetails = ({
                   placeholder="Address"
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Zip Code"
                   type="text"
@@ -234,10 +235,10 @@ const AdminDetails = ({
                   placeholder="Zip Code"
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
             <Row className="mb-3">
-              <Form.Group className="col-md-4">
+              <div className="col-md-4">
                 <TextField
                   label="City"
                   type="text"
@@ -245,9 +246,9 @@ const AdminDetails = ({
                   placeholder="City"
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
+              <div className="col-md-3">
                 <TextField
                   label="State"
                   type="text"
@@ -255,9 +256,9 @@ const AdminDetails = ({
                   placeholder="State"
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Practice Id"
                   type="number"
@@ -265,9 +266,9 @@ const AdminDetails = ({
                   placeholder="Id"
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
+              <div className="col-md-3">
                 <TextField
                   label="Practice Name"
                   type="text"
@@ -275,9 +276,9 @@ const AdminDetails = ({
                   placeholder="Name"
                   editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
-            <Button type="submit" variant="success" className="mt-3">
+            <Button type="submit" className="mt-3 btn-success">
               {toggleEdit ? "Submit" : "Save"}
             </Button>
 

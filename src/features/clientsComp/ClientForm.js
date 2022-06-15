@@ -3,29 +3,42 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { createAsyncAdmin } from "./AdminsSlice";
+import { asyncCreateClient } from "./ClientsSlice";
 
 //Textfield component
 import TextField from "../../helper/TextField";
 
-const AdminDetails = (props) => {
+const ClientDetails = ({ formSubmission }) => {
   const dispatch = useDispatch();
 
   const initialValues = {
     firstName: "",
     lastName: "",
-    title: "",
-    extension: "",
+    clientFlag: false,
+    gender: "",
+    email: "",
+    emailOptingIn: false,
     primaryPhoneNumber: "",
-    hours: "",
-    hireDate: "",
-    person: {
-      email: "",
-      secret: "",
-      role: {
-        id: 0,
-      },
+    secondaryPhoneNumber: "",
+    guardian: "",
+    emergencyContactNumber: "",
+    dob: "",
+    note: "",
+    billingNote: "",
+    insurance: {
+      id: 0,
+      name: "",
+      eapFlag: false,
+      teletherapyModifier: "",
     },
+    insurancePolicyNumber: "",
+    insuranceGroupNumber: "",
+    insuredRelationship: "",
+    insuredFirstName: "",
+    insuredLastName: "",
+    insuredDob: "",
+    emergencyContactName: "",
+    activeFlag: false,
     address: {
       address1: "",
       address2: "",
@@ -33,12 +46,25 @@ const AdminDetails = (props) => {
       state: "",
       zipCode: "",
     },
-    practices: [
+    clinicians: [
       {
         id: 0,
-        name: "",
       },
     ],
+    location: {
+      id: 0,
+      name: "",
+      code: "",
+      address: {
+        id: 0,
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        deleteFlag: false,
+        zipCode: "",
+      },
+    },
   };
 
   const validationSchema = Yup.object().shape({
@@ -61,18 +87,18 @@ const AdminDetails = (props) => {
     }),
   });
 
-  const onSubmit = (FormValues, onSubmitProps) => {
+  const onSubmit = (formValues, onSubmitProps) => {
     const values = {
-      adminFormData: FormValues,
+      clientFormData: formValues,
       onSubmitProps,
     };
-    dispatch(createAsyncAdmin(values));
+    formSubmission(values);
+    // dispatch(createAsyncAdmin(onValuesSubmit));
   };
 
   return (
     <div className="nav__form">
-      <h2>Create an Admin</h2>
-
+      <h2>Create a Client</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -107,111 +133,115 @@ const AdminDetails = (props) => {
             <Row className="mb-4">
               <Form.Group className="col-md-4">
                 <TextField
-                  label="Phone Number"
+                  label="Gender"
+                  type="text"
+                  name="gender"
+                  placeholder="Gender"
+                  errors={errors.gender}
+                  touched={touched.gender}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-2">
+                <Form.Check
+                  label="ClientFlag"
+                  type="checkbox"
+                  className="form-checkbox-input"
+                  name="clientFlag"
+                  errors={errors.clientFlag}
+                  touched={touched.clientFlag}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-3">
+                <TextField
+                  label="Email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  errors={errors.email}
+                  touched={touched.email}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-3">
+                <Form.Check
+                  label="OptingIn"
+                  type="checkbox"
+                  name="emaiOptingIn"
+                  placeholder="HireDate"
+                  errors={errors.emaiOptingIn}
+                  touched={touched.emaiOptingIn}
+                />
+              </Form.Group>
+            </Row>
+
+            <Row className="mb-4">
+              <Form.Group className="col-md-5">
+                <TextField
+                  label="Phone Number 1"
                   type="text"
                   name="primaryPhoneNumber"
-                  placeholder="Enter your Phone Number"
+                  placeholder="Please enter your Mobile Number"
                   errors={errors.primaryPhoneNumber}
                   touched={touched.primaryPhoneNumber}
                 />
               </Form.Group>
 
-              <Form.Group className="col-md-2">
+              <Form.Group className="col-md-3">
                 <TextField
-                  label="Extension"
+                  label="Phone Number 2"
                   type="text"
-                  name="extension"
-                  placeholder="Extension"
-                  errors={errors.extension}
-                  touched={touched.extension}
-                />
-              </Form.Group>
-
-              <Form.Group className="col-md-3">
-                <TextField
-                  label="Title"
-                  type="text"
-                  name="title"
-                  placeholder="Title"
-                  errors={errors.title}
-                  touched={touched.title}
-                />
-              </Form.Group>
-
-              <Form.Group className="col-md-3">
-                <TextField
-                  label="Hire Date"
-                  type="date"
-                  name="hireDate"
-                  placeholder="HireDate"
-                  errors={errors.hireDate}
-                  touched={touched.hireDate}
-                />
-              </Form.Group>
-            </Row>
-
-            <Row className="mb-4">
-              <Form.Group className="col-md-5">
-                <TextField
-                  label="Email"
-                  type="email"
-                  name="person.email"
-                  placeholder="Please enter your Email"
-                  errors={errors.person?.email}
-                  touched={touched.person?.email}
-                />
-              </Form.Group>
-
-              <Form.Group className="col-md-3">
-                <TextField
-                  label="Secret"
-                  type="password"
-                  name="person.secret"
-                  placeholder="Secret"
-                  errors={errors.person?.secret}
-                  touched={touched.person?.secret}
+                  name="secondaryPhoneNumber"
+                  placeholder="Please enter your Mobile Number"
+                  errors={errors.secondaryPhoneNumber}
+                  touched={touched.secondaryPhoneNumber}
                 />
               </Form.Group>
 
               <Form.Group className="col-md-2">
                 <TextField
-                  label="Hours"
-                  type="text"
-                  name="hours"
-                  placeholder="Hours"
-                  errors={errors.hours}
-                  touched={touched.hours}
-                />
-              </Form.Group>
-
-              <Form.Group className="col-md-2">
-                <TextField
-                  label="Id"
-                  type="number"
-                  name="person.role.id"
-                  placeholder="Id"
-                  errors={errors.person?.role?.id}
-                  touched={touched.person?.role?.id}
-                />
-              </Form.Group>
-            </Row>
-
-            <Row className="mb-4">
-              <Form.Group className="col-md-5">
-                <TextField
-                  label="Address1"
+                  label="Address 1 "
                   type="text"
                   name="address.address1"
                   placeholder="Address"
+                  errors={errors.address?.address1}
+                  touched={touched.address?.address1}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-2">
+                <TextField
+                  label="Address 2 "
+                  type="text"
+                  name="address.address2"
+                  placeholder="Address"
+                  errors={errors.address?.address2}
+                  touched={touched.address?.address2}
+                />
+              </Form.Group>
+            </Row>
+
+            <Row className="mb-4">
+              <Form.Group className="col-md-5">
+                <TextField
+                  label="City"
+                  type="text"
+                  name="address.city"
+                  placeholder="Address"
+                  errors={errors.address?.city}
+                  touched={touched.address?.city}
                 />
               </Form.Group>
 
               <Form.Group className="col-md-5">
                 <TextField
-                  label="Address2"
+                  label="State"
                   type="text"
-                  name="address.address2"
-                  placeholder="Address"
+                  name="address.state"
+                  placeholder="State"
+                  errors={errors.address?.state}
+                  touched={touched.address?.state}
                 />
               </Form.Group>
 
@@ -228,37 +258,28 @@ const AdminDetails = (props) => {
             <Row className="mb-3">
               <Form.Group className="col-md-4">
                 <TextField
-                  label="City"
-                  type="text"
-                  name="address.city"
-                  placeholder="City"
+                  label="Date of Birth"
+                  type="date"
+                  name="dob"
+                  placeholder="Date of birth"
                 />
               </Form.Group>
 
               <Form.Group className="col-md-3">
                 <TextField
-                  label="State"
+                  label="Guardian"
                   type="text"
-                  name="address.state"
-                  placeholder="State"
+                  name="guardian"
+                  placeholder="Guardian"
                 />
               </Form.Group>
 
-              <Form.Group className="col-md-2">
+              <Form.Group className="col-md-4">
                 <TextField
-                  label="Practice Id"
-                  type="number"
-                  name="practices[0].id"
-                  placeholder="Id"
-                />
-              </Form.Group>
-
-              <Form.Group className="col-md-3">
-                <TextField
-                  label="Practice Name"
+                  label="Emergency Contact Number"
                   type="text"
-                  name="practices[0].name"
-                  placeholder="Name"
+                  name="emergencyContactNumber"
+                  placeholder="emergencyContactNumber"
                 />
               </Form.Group>
             </Row>
@@ -278,4 +299,4 @@ const AdminDetails = (props) => {
   );
 };
 
-export default AdminDetails;
+export default ClientDetails;

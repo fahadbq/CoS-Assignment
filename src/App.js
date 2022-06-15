@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import './App.css';
-import NavBar from './NavBar';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import "./App.css";
+import NavBar from "./NavBar";
 
-import {getAsyncAdmins} from './features/admins/AdminsSlice'
+import { getAsyncAdmins } from "./features/admins/AdminsSlice";
+import { asyncGetClients } from "./features/clientsComp/ClientsSlice";
 
 function App() {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
-  const [ userLoggedIn, setUserLoggedIn ] = useState(false)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleAuth = () => {
-    return setUserLoggedIn(true)
-  }
+    return setUserLoggedIn(true);
+  };
 
   useEffect(() => {
-    
-    if(localStorage.getItem("token")){
-      setUserLoggedIn(true)
-      dispatch(getAsyncAdmins())
+    if (localStorage.getItem("token")) {
+      setUserLoggedIn(true);
+      dispatch(getAsyncAdmins());
+      dispatch(asyncGetClients());
     }
-
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <div className="App">
