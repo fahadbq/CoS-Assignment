@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import TextField from "../../helper/TextField";
+import TextField from "../helper/TextField";
 
 import { Button } from "react-bootstrap";
 

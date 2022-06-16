@@ -66,7 +66,7 @@ export const asyncDeleteClient = createAsyncThunk(
         },
       });
       navigate("/clients");
-      return id;
+      return Number(id);
     } catch (error) {
       alert("DeleteClient Error", error.message);
     }
@@ -75,7 +75,7 @@ export const asyncDeleteClient = createAsyncThunk(
 
 export const asyncUpdateClient = createAsyncThunk(
   "clients/asyncUpdateClient",
-  async ({ clientFormData, onSubmitProps }, { rejectWithValue }) => {
+  async ({ clientFormData }, { rejectWithValue }) => {
     try {
       await axios.put(`/clients/${clientFormData.id}`, clientFormData, {
         headers: {
@@ -83,7 +83,6 @@ export const asyncUpdateClient = createAsyncThunk(
         },
       });
       console.log(clientFormData);
-      onSubmitProps.resetForm();
       return clientFormData;
     } catch (error) {
       if (!error.response) {

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { createAsyncAdmin } from "./AdminsSlice";
 
 //Textfield component
-import TextField from "../../helper/TextField";
+import TextField from "../helper/TextField";
 
 const AdminDetails = (props) => {
   const dispatch = useDispatch();

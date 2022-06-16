@@ -1,11 +1,11 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
-import { Row, Button } from "react-bootstrap";
+import { Form, Row, Button } from "react-bootstrap";
 
 //Textfield component
-import TextField from "../../helper/TextField";
-import { useParams } from "react-router-dom";
+import TextField from "../helper/TextField";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ClientDetails = ({
   formSubmission,
@@ -15,7 +15,10 @@ const ClientDetails = ({
   removeClient,
   updateButton,
   deleteButton,
+  backButton,
 }) => {
+  const navigate = useNavigate();
+
   const { clientId } = useParams();
 
   const initialValues = {
@@ -101,10 +104,21 @@ const ClientDetails = ({
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ errors, touched }) => (
-          <Form>
+        {({ handleSubmit, errors, touched }) => (
+          <Form onSubmit={handleSubmit}>
+            {backButton && (
+              <Button
+                className="mb-2"
+                variant="secondary"
+                onClick={() => {
+                  navigate("/clients");
+                }}
+              >
+                {backButton}
+              </Button>
+            )}
             <Row className="mb-4">
-              <div className="col-md-6">
+              <Form.Group className="col-md-5">
                 <TextField
                   label="First Name"
                   type="text"
@@ -112,11 +126,11 @@ const ClientDetails = ({
                   placeholder="Enter your First Name"
                   errors={errors.firstName}
                   touched={touched.firstName}
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
+              </Form.Group>
 
-              <div className="col-md-6">
+              <Form.Group className="col-md-4">
                 <TextField
                   label="Last Name"
                   type="text"
@@ -124,13 +138,11 @@ const ClientDetails = ({
                   placeholder="Enter your Last Name"
                   errors={errors.lastName}
                   touched={touched.lastName}
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
-            </Row>
+              </Form.Group>
 
-            <Row className="mb-4">
-              <div className="col-md-4">
+              <Form.Group className="col-md-3">
                 <TextField
                   label="Gender"
                   type="text"
@@ -138,21 +150,13 @@ const ClientDetails = ({
                   placeholder="Gender"
                   errors={errors.gender}
                   touched={touched.gender}
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
+              </Form.Group>
+            </Row>
 
-              <div className="col-md-2">
-                <div className="form-label">ClientFlag</div>
-                <input
-                  type="checkbox"
-                  className="form-checkbox-input"
-                  name="clientFlag"
-                  editToggle={toggleEdit}
-                />
-              </div>
-
-              <div className="col-md-3">
+            <Row className="mb-4">
+              <Form.Group className="col-md-5">
                 <TextField
                   label="Email"
                   type="email"
@@ -160,108 +164,40 @@ const ClientDetails = ({
                   placeholder="Enter your email"
                   errors={errors.email}
                   touched={touched.email}
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
+              </Form.Group>
 
-              <div className="col-md-3">
-                <div className="form-label">OptingIn</div>
-                <input
-                  className="form-checkbox-input"
+              <Form.Group className="col-md-3">
+                <TextField
+                  label="Billing Note"
+                  type="text"
+                  name="billingNote"
+                  placeholder="billingNote"
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-2">
+                <Form.Group className="form-label">ClientFlag</Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  name="clientFlag"
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+              <Form.Group className="col-md-2">
+                <Form.Group className="form-label">OptingIn</Form.Group>
+                <Form.Check
                   type="checkbox"
                   name="emailOptingIn"
-                  placeholder="HireDate"
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
+              </Form.Group>
             </Row>
 
             <Row className="mb-4">
-              <div className="col-md-5">
-                <TextField
-                  label="Phone Number 1"
-                  type="text"
-                  name="primaryPhoneNumber"
-                  placeholder="Please enter your Mobile Number"
-                  errors={errors.primaryPhoneNumber}
-                  touched={touched.primaryPhoneNumber}
-                  editToggle={toggleEdit}
-                />
-              </div>
-
-              <div className="col-md-3">
-                <TextField
-                  label="Phone Number 2"
-                  type="text"
-                  name="secondaryPhoneNumber"
-                  placeholder="Please enter your Mobile Number"
-                  editToggle={toggleEdit}
-                />
-              </div>
-
-              <div className="col-md-2">
-                <TextField
-                  label="Address 1 "
-                  type="text"
-                  name="address.address1"
-                  placeholder="Address"
-                  errors={errors.address?.address1}
-                  touched={touched.address?.address1}
-                  editToggle={toggleEdit}
-                />
-              </div>
-
-              <div className="col-md-2">
-                <TextField
-                  label="Address 2 "
-                  type="text"
-                  name="address.address2"
-                  placeholder="Address"
-                  editToggle={toggleEdit}
-                />
-              </div>
-            </Row>
-
-            <Row className="mb-4">
-              <div className="col-md-5">
-                <TextField
-                  label="City"
-                  type="text"
-                  name="address.city"
-                  placeholder="Address"
-                  errors={errors.address?.city}
-                  touched={touched.address?.city}
-                  editToggle={toggleEdit}
-                />
-              </div>
-
-              <div className="col-md-5">
-                <TextField
-                  label="State"
-                  type="text"
-                  name="address.state"
-                  placeholder="State"
-                  errors={errors.address?.state}
-                  touched={touched.address?.state}
-                  editToggle={toggleEdit}
-                />
-              </div>
-
-              <div className="col-md-2">
-                <TextField
-                  label="Zip Code"
-                  type="text"
-                  name="address.zipCode"
-                  placeholder="Zip Code"
-                  errors={errors.address?.zipCode}
-                  touched={touched.address?.zipCode}
-                  editToggle={toggleEdit}
-                />
-              </div>
-            </Row>
-
-            <Row className="mb-3">
-              <div className="col-md-4">
+              <Form.Group className="col-md-4">
                 <TextField
                   label="Date of Birth"
                   type="date"
@@ -269,32 +205,118 @@ const ClientDetails = ({
                   placeholder="Date of birth"
                   errors={errors.dob}
                   touched={touched.dob}
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
+              </Form.Group>
 
-              <div className="col-md-3">
+              <Form.Group className="col-md-4">
+                <TextField
+                  label="Phone Number 1"
+                  type="text"
+                  name="primaryPhoneNumber"
+                  placeholder="Please enter your Mobile Number"
+                  errors={errors.primaryPhoneNumber}
+                  touched={touched.primaryPhoneNumber}
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-4">
+                <TextField
+                  label="Phone Number 2"
+                  type="text"
+                  name="secondaryPhoneNumber"
+                  placeholder="Please enter your Mobile Number"
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+            </Row>
+
+            <Row className="mb-4">
+              <Form.Group className="col-md-5">
+                <TextField
+                  label="Address 1 "
+                  type="text"
+                  name="address.address1"
+                  placeholder="Address"
+                  errors={errors.address?.address1}
+                  touched={touched.address?.address1}
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-5">
+                <TextField
+                  label="Address 2 "
+                  type="text"
+                  name="address.address2"
+                  placeholder="Address"
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-2">
+                <TextField
+                  label="Zip Code"
+                  type="text"
+                  name="address.zipCode"
+                  placeholder="Zip Code"
+                  errors={errors.address?.zipCode}
+                  touched={touched.address?.zipCode}
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+            </Row>
+
+            <Row className="mb-3">
+              <Form.Group className="col-md-3">
+                <TextField
+                  label="City"
+                  type="text"
+                  name="address.city"
+                  placeholder="Address"
+                  errors={errors.address?.city}
+                  touched={touched.address?.city}
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-3">
+                <TextField
+                  label="State"
+                  type="text"
+                  name="address.state"
+                  placeholder="State"
+                  errors={errors.address?.state}
+                  touched={touched.address?.state}
+                  toggle_edit={toggleEdit}
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-3">
                 <TextField
                   label="Guardian"
                   type="text"
                   name="guardian"
                   placeholder="Guardian"
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
+              </Form.Group>
 
-              <div className="col-md-4">
+              <Form.Group className="col-md-3">
                 <TextField
-                  label="Emergency Contact Number"
+                  label="Emergency Contact"
                   type="text"
                   name="emergencyContactNumber"
-                  placeholder="emergencyContactNumber"
+                  placeholder="Emergency Contact"
                   errors={errors.emergencyContactNumber}
                   touched={touched.emergencyContactNumber}
-                  editToggle={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
-              </div>
+              </Form.Group>
             </Row>
+
+            <Row className="mb-3"></Row>
 
             <Button
               type="submit"

@@ -36,6 +36,7 @@ const ClientDetails = ({
         removeClient={removeClient}
         updateButton={updateButton}
         deleteButton={deleteButton}
+        backButton="Back"
       />
     </div>
   );

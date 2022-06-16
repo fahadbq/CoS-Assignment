@@ -11,6 +11,13 @@
   display: flex;
 }
 
+.nav__scroll {
+  position: relative;
+  width: 220px;
+  overflow-y: scroll;
+  height: 600px;
+}
+
 .nav__component {
   display: flex;
   flex-direction: column;
@@ -30,4 +37,10 @@
   position: absolute;
   color: red;
   font-size: 0.8rem;
+}
+
+.nav__positioning {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 50px;
 }

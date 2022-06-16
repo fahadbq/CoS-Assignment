@@ -1,13 +1,14 @@
 import React from "react";
-import { Navbar, Container, Nav, NavLink } from "react-bootstrap";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 
 // Components
 import Login from "./features/login/Login";
-import AdminsContainer from "./features/admins/AdminsContainer";
+import PrivateRoute from "./features/privateRoute/PrivateRoute";
+import AdminsContainer from "./features/admins/AdminsList";
 import EditAdmin from "./features/admins/EditAdmin";
 
-import ClientsContainer from "./features/clientsComp/ClientsContainer";
+import ClientsContainer from "./features/clientsComp/ClientsList";
 import EditClient from "./features/clientsComp/ClientEdit";
 
 const NavBar = ({ userLoggedIn, handleAuth }) => {
@@ -25,17 +26,25 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
   return (
     <div>
       <Navbar bg="dark" variant="dark">
-        <Container>
+        <Container className="flex-grow-1">
           <Nav className="nav__links">
             {userLoggedIn ? (
               <>
-                <NavLink href="/admins"> Admins </NavLink>
-                <NavLink href="/clients"> Clients </NavLink>
-                <NavLink onClick={handleLogout}> Logout </NavLink>
+                <Nav.Link as={Link} to="/admins">
+                  Admins
+                </Nav.Link>
+                <Nav.Link as={Link} to="/clients" className="nav__positioning">
+                  Clients
+                </Nav.Link>
+                <Nav.Link onClick={handleLogout} className="nav__positioning">
+                  Logout
+                </Nav.Link>
               </>
             ) : (
               <>
-                <NavLink href="/"> Sign In </NavLink>
+                <Nav.Link as={Link} to="/">
+                  Sign In
+                </Nav.Link>
               </>
             )}
           </Nav>
@@ -45,10 +54,22 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
       {/* Route session */}
       <Routes>
         <Route path="/" element={<Login handleAuth={handleAuth} />} />
-        <Route path="/admins" element={<AdminsContainer />} />
-        <Route path="/admins/:adminId" element={<EditAdmin />} />
-        <Route path="/clients" element={<ClientsContainer />} />
-        <Route path="/clients/:clientId" element={<EditClient />} />
+        <Route
+          path="/admins"
+          element={<PrivateRoute component={AdminsContainer} />}
+        />
+        <Route
+          path="/admins/:adminId"
+          element={<PrivateRoute component={EditAdmin} />}
+        />
+        <Route
+          path="/clients"
+          element={<PrivateRoute component={ClientsContainer} />}
+        />
+        <Route
+          path="/clients/:clientId"
+          element={<PrivateRoute component={EditClient} />}
+        />
       </Routes>
     </div>
   );

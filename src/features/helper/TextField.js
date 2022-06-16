@@ -8,7 +8,7 @@ const TextField = ({
   placeholder,
   errors,
   touched,
-  editToggle,
+  toggle_edit,
 }) => {
   return (
     <div>
@@ -18,7 +18,7 @@ const TextField = ({
         type={type}
         name={name}
         placeholder={placeholder}
-        disabled={editToggle}
+        disabled={toggle_edit}
       />
       {touched && errors ? <span className="error">{errors}</span> : false}
     </div>

@@ -11,12 +11,15 @@ const ClientsContainer = (props) => {
 
   return (
     <div className="nav__container">
-      <ListGroup style={{ postion: "relative", width: "220px" }}>
+      <ListGroup className="nav__scroll">
         {clients.loading === false &&
           clients.data.map((client) => {
             return (
               <ListGroup.Item key={client.id}>
-                <Link to={`/clients/${client.id}`}>{client?.firstName}</Link>
+                <Link to={`/clients/${client.id}`}>
+                  {client?.firstName}
+                  {client?.lastName}
+                </Link>
               </ListGroup.Item>
             );
           })}

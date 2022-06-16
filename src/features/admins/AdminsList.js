@@ -11,12 +11,15 @@ const AdminsContainer = (props) => {
 
   return (
     <div className="nav__container">
-      <ListGroup style={{ postion: "relative", width: "220px" }}>
+      <ListGroup className="nav__scroll">
         {admins.loading === false &&
           admins.data.map((admin) => {
             return (
               <ListGroup.Item key={admin.id}>
-                <Link to={`/admins/${admin.id}`}>{admin?.firstName}</Link>
+                <Link to={`/admins/${admin.id}`}>
+                  {admin?.firstName}
+                  {admin?.lastName}
+                </Link>
               </ListGroup.Item>
             );
           })}
