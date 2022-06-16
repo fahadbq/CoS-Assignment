@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { asyncDeleteClient } from "../clientsComp/ClientsSlice";
+import { asyncUpdateClient } from "../clientsComp/ClientsSlice";
 
 import ClientDetails from "./ClientDetails";
 
@@ -16,8 +17,8 @@ const EditClient = (props) => {
   };
 
   //Async Update Operation
-  const formSubmission = (formData) => {
-    console.log(formData);
+  const formSubmission = (values) => {
+    dispatch(asyncUpdateClient(values));
   };
 
   //Async Delete Operation
@@ -40,6 +41,8 @@ const EditClient = (props) => {
         toggleEdit={toggleEdit}
         handleToggleEdit={handleToggleEdit}
         removeClient={removeClient}
+        updateButton="Update"
+        deleteButton="Delete"
       />
     </div>
   );

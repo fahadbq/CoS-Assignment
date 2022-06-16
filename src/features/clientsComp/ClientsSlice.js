@@ -39,7 +39,6 @@ export const asyncGetClient = createAsyncThunk(
 export const asyncCreateClient = createAsyncThunk(
   "clients/asyncCreateClient",
   async ({ clientFormData, onSubmitProps }, { rejectWithValue }) => {
-    console.log("reading form in asyn operation", clientFormData);
     try {
       const response = await axios.post("/clients", clientFormData, {
         headers: {
@@ -61,15 +60,36 @@ export const asyncDeleteClient = createAsyncThunk(
   "clients/asyncDeleteClient",
   async ({ id, navigate }) => {
     try {
-      const response = await axios.delete(`/clients/${id}`, {
+      await axios.delete(`/clients/${id}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      navigate("/admins");
+      navigate("/clients");
       return id;
     } catch (error) {
       alert("DeleteClient Error", error.message);
+    }
+  }
+);
+
+export const asyncUpdateClient = createAsyncThunk(
+  "clients/asyncUpdateClient",
+  async ({ clientFormData, onSubmitProps }, { rejectWithValue }) => {
+    try {
+      await axios.put(`/clients/${clientFormData.id}`, clientFormData, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      console.log(clientFormData);
+      onSubmitProps.resetForm();
+      return clientFormData;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -92,7 +112,7 @@ const clientsSlice = createSlice({
       return { ...state, loading: true, status: action.payload };
     },
 
-    //Get an Admin by id
+    //Get an Client by id
     [asyncGetClient.fulfilled]: (state, action) => {
       console.log("fulfilled");
       state.oneData = action.payload;
@@ -102,7 +122,7 @@ const clientsSlice = createSlice({
       alert(action.payload.message);
     },
 
-    // Create Admin
+    // Create Client
     [asyncCreateClient.fulfilled]: (state, action) => {
       console.log("fulfilled");
       state.data = [action.payload, ...state.data];
@@ -113,12 +133,28 @@ const clientsSlice = createSlice({
       alert(action.payload.message);
     },
 
-    //Delete Admin
+    //Delete Client
     [asyncDeleteClient.fulfilled]: (state, action) => {
       state.loading = false;
       state.data = state.data.filter((ele) => ele.id !== action.payload);
     },
     [asyncDeleteClient.rejected]: (state) => {
+      console.log("rejected");
+      return { ...state, loading: true };
+    },
+
+    //Update Client
+    [asyncUpdateClient.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.data = state.data.map((ele) => {
+        if (ele.id === action.payload.id) {
+          return { ...action.payload };
+        } else {
+          return { ...ele };
+        }
+      });
+    },
+    [asyncUpdateClient.rejected]: (state) => {
       console.log("rejected");
       return { ...state, loading: true };
     },

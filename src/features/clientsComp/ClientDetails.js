@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllClients } from "../clientsComp/ClientsSlice";
 import { asyncGetClient } from "../clientsComp/ClientsSlice";
 
@@ -12,6 +11,8 @@ const ClientDetails = ({
   toggleEdit,
   handleToggleEdit,
   removeClient,
+  updateButton,
+  deleteButton,
 }) => {
   const { clientId } = useParams();
 
@@ -21,37 +22,21 @@ const ClientDetails = ({
 
   useEffect(() => {
     dispatch(asyncGetClient(clientId));
-  }, [dispatch, clients]);
+  }, [dispatch, clientId]);
 
   return (
     <div className="nav__component">
       <h1> Client Details </h1>
 
-      <ClientForm />
-
-      {/* <Button type="submit" className="mt-3 btn-success">
-        {toggleEdit ? "Submit" : "Save"}
-      </Button>
-
-      <Button
-        onClick={handleToggleEdit}
-        className="mt-3"
-        variant="warning"
-        style={{ marginLeft: "900px" }}
-      >
-        {toggleEdit ? "Edit" : "Cancel"}
-      </Button>
-
-      <Button
-        onClick={() => {
-          removeClient(clientId);
-        }}
-        className="mt-3"
-        variant="danger"
-        style={{ marginLeft: "20px" }}
-      >
-        Delete
-      </Button> */}
+      <ClientForm
+        oneData={clients.oneData}
+        formSubmission={formSubmission}
+        toggleEdit={toggleEdit}
+        handleToggleEdit={handleToggleEdit}
+        removeClient={removeClient}
+        updateButton={updateButton}
+        deleteButton={deleteButton}
+      />
     </div>
   );
 };

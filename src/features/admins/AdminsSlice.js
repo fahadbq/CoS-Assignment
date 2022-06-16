@@ -61,15 +61,36 @@ export const deleteAsyncAdmin = createAsyncThunk(
   "admins/deleteAsyncAdmins",
   async ({ id, navigate }) => {
     try {
-      const response = await axios.delete(`/admins/${id}`, {
+      await axios.delete(`/admins/${id}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
       navigate("/admins");
-      return id;
+      return Number(id);
     } catch (error) {
       alert("DeleteAdmin Error", error.message);
+    }
+  }
+);
+
+export const asyncUpdateAdmin = createAsyncThunk(
+  "admins/asyncUpdateAdmin",
+  async ({ adminFormData, navigate }, { rejectWithValue }) => {
+    try {
+      await axios.put(`/admins/${adminFormData.id}`, adminFormData, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      console.log(adminFormData);
+      navigate("/admins");
+      return adminFormData;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -121,6 +142,22 @@ const adminsSlice = createSlice({
     [deleteAsyncAdmin.rejected]: (state) => {
       console.log("rejected");
       return { ...state, loading: true };
+    },
+
+    //Update Admin
+    [asyncUpdateAdmin.fulfilled]: (state, action) => {
+      state.data = state.data.map((ele) => {
+        if (ele.id === action.payload.id) {
+          return { ...action.payload };
+        } else {
+          return { ...ele };
+        }
+      });
+      state.loading = false;
+    },
+    [asyncUpdateAdmin.rejected]: (state, action) => {
+      state.errors = action.payload.message;
+      alert(action.payload.message);
     },
   },
 });

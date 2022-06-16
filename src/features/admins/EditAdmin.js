@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteAsyncAdmin } from "./AdminsSlice";
+import { asyncUpdateAdmin } from "./AdminsSlice";
 
 import AdminDetails from "./AdminDetails";
 
@@ -18,6 +19,7 @@ const EditAdmin = (props) => {
   //Async Update Operation
   const formSubmission = (formData) => {
     console.log(formData);
+    dispatch(asyncUpdateAdmin(formData));
   };
 
   //Async Delete Operation

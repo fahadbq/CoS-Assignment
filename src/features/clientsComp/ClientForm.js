@@ -1,44 +1,47 @@
 import React from "react";
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Form, Row, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { asyncCreateClient } from "./ClientsSlice";
+import { Row, Button } from "react-bootstrap";
 
 //Textfield component
 import TextField from "../../helper/TextField";
+import { useParams } from "react-router-dom";
 
-const ClientDetails = ({ formSubmission }) => {
-  const dispatch = useDispatch();
+const ClientDetails = ({
+  formSubmission,
+  oneData,
+  toggleEdit,
+  handleToggleEdit,
+  removeClient,
+  updateButton,
+  deleteButton,
+}) => {
+  const { clientId } = useParams();
 
   const initialValues = {
     firstName: "",
     lastName: "",
-    clientFlag: false,
-    gender: "",
     email: "",
-    emailOptingIn: false,
+    gender: "",
+    clientFlag: false,
+    emailOptingIn: true,
     primaryPhoneNumber: "",
     secondaryPhoneNumber: "",
     guardian: "",
     emergencyContactNumber: "",
+    emergencyContactName: "",
     dob: "",
     note: "",
     billingNote: "",
-    insurance: {
-      id: 0,
-      name: "",
-      eapFlag: false,
-      teletherapyModifier: "",
-    },
+    insurance: null,
     insurancePolicyNumber: "",
     insuranceGroupNumber: "",
-    insuredRelationship: "",
+    insuredRelationship: "Self",
     insuredFirstName: "",
     insuredLastName: "",
     insuredDob: "",
-    emergencyContactName: "",
-    activeFlag: false,
+    activeFlag: true,
+    createUser: "",
     address: {
       address1: "",
       address2: "",
@@ -46,68 +49,62 @@ const ClientDetails = ({ formSubmission }) => {
       state: "",
       zipCode: "",
     },
-    clinicians: [
-      {
-        id: 0,
-      },
-    ],
+    clinicians: [],
     location: {
-      id: 0,
+      id: 1,
       name: "",
       code: "",
       address: {
         id: 0,
         address1: "",
         address2: "",
-        city: "",
         state: "",
-        deleteFlag: false,
+        city: "",
         zipCode: "",
       },
+      label: "",
+      value: 0,
     },
   };
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("Enter your first name"),
     lastName: Yup.string().required("Enter your last name"),
-    title: Yup.string().required("Title Required!"),
-    extension: Yup.string().required("Extension Required!"),
-    primaryPhoneNumber: Yup.string().required("Phone number Required!"),
-    hours: Yup.string().required("Hours Required!"),
-    hireDate: Yup.string().required("Enter a date"),
-    person: Yup.object().shape({
-      email: Yup.string().required("Enter your email").email("Invalid email"),
-      secret: Yup.string()
-        .required("Enter your secret message")
-        .min(8, "Minimum 8 characters")
-        .max(12, "Maximum 12 characters"),
-      role: Yup.object().shape({
-        id: Yup.string().required("Enter your role Id"),
-      }),
+    gender: Yup.string().required("Gender is Required!"),
+    email: Yup.string().required("Enter your email").email("Invalid email"),
+    primaryPhoneNumber: Yup.string().required("Phone Number is Required!"),
+    emergencyContactNumber: Yup.string().required(
+      "Emergency Contact is Required!"
+    ),
+    dob: Yup.date().required("Date of birth is Required!"),
+    address: Yup.object().shape({
+      address1: Yup.string().required("Address is required"),
+      city: Yup.string().required("City is required"),
+      state: Yup.string().required("State is required"),
+      zipCode: Yup.string().required("Zip Code is required"),
     }),
   });
 
   const onSubmit = (formValues, onSubmitProps) => {
-    const values = {
+    const formData = {
       clientFormData: formValues,
       onSubmitProps,
     };
-    formSubmission(values);
-    // dispatch(createAsyncAdmin(onValuesSubmit));
+    formSubmission(formData);
   };
 
   return (
-    <div className="nav__form">
-      <h2>Create a Client</h2>
+    <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={oneData || initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
+        enableReinitialize
       >
-        {({ handleSubmit, errors, touched }) => (
-          <Form onSubmit={handleSubmit}>
+        {({ errors, touched }) => (
+          <Form>
             <Row className="mb-4">
-              <Form.Group className="col-md-6">
+              <div className="col-md-6">
                 <TextField
                   label="First Name"
                   type="text"
@@ -115,10 +112,11 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="Enter your First Name"
                   errors={errors.firstName}
                   touched={touched.firstName}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-6">
+              <div className="col-md-6">
                 <TextField
                   label="Last Name"
                   type="text"
@@ -126,12 +124,13 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="Enter your Last Name"
                   errors={errors.lastName}
                   touched={touched.lastName}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
 
             <Row className="mb-4">
-              <Form.Group className="col-md-4">
+              <div className="col-md-4">
                 <TextField
                   label="Gender"
                   type="text"
@@ -139,21 +138,21 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="Gender"
                   errors={errors.gender}
                   touched={touched.gender}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
-                <Form.Check
-                  label="ClientFlag"
+              <div className="col-md-2">
+                <div className="form-label">ClientFlag</div>
+                <input
                   type="checkbox"
                   className="form-checkbox-input"
                   name="clientFlag"
-                  errors={errors.clientFlag}
-                  touched={touched.clientFlag}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
+              <div className="col-md-3">
                 <TextField
                   label="Email"
                   type="email"
@@ -161,23 +160,24 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="Enter your email"
                   errors={errors.email}
                   touched={touched.email}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
-                <Form.Check
-                  label="OptingIn"
+              <div className="col-md-3">
+                <div className="form-label">OptingIn</div>
+                <input
+                  className="form-checkbox-input"
                   type="checkbox"
-                  name="emaiOptingIn"
+                  name="emailOptingIn"
                   placeholder="HireDate"
-                  errors={errors.emaiOptingIn}
-                  touched={touched.emaiOptingIn}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
 
             <Row className="mb-4">
-              <Form.Group className="col-md-5">
+              <div className="col-md-5">
                 <TextField
                   label="Phone Number 1"
                   type="text"
@@ -185,21 +185,21 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="Please enter your Mobile Number"
                   errors={errors.primaryPhoneNumber}
                   touched={touched.primaryPhoneNumber}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
+              <div className="col-md-3">
                 <TextField
                   label="Phone Number 2"
                   type="text"
                   name="secondaryPhoneNumber"
                   placeholder="Please enter your Mobile Number"
-                  errors={errors.secondaryPhoneNumber}
-                  touched={touched.secondaryPhoneNumber}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Address 1 "
                   type="text"
@@ -207,23 +207,23 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="Address"
                   errors={errors.address?.address1}
                   touched={touched.address?.address1}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Address 2 "
                   type="text"
                   name="address.address2"
                   placeholder="Address"
-                  errors={errors.address?.address2}
-                  touched={touched.address?.address2}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
 
             <Row className="mb-4">
-              <Form.Group className="col-md-5">
+              <div className="col-md-5">
                 <TextField
                   label="City"
                   type="text"
@@ -231,10 +231,11 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="Address"
                   errors={errors.address?.city}
                   touched={touched.address?.city}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-5">
+              <div className="col-md-5">
                 <TextField
                   label="State"
                   type="text"
@@ -242,46 +243,57 @@ const ClientDetails = ({ formSubmission }) => {
                   placeholder="State"
                   errors={errors.address?.state}
                   touched={touched.address?.state}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-2">
+              <div className="col-md-2">
                 <TextField
                   label="Zip Code"
                   type="text"
                   name="address.zipCode"
                   placeholder="Zip Code"
+                  errors={errors.address?.zipCode}
+                  touched={touched.address?.zipCode}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
 
             <Row className="mb-3">
-              <Form.Group className="col-md-4">
+              <div className="col-md-4">
                 <TextField
                   label="Date of Birth"
                   type="date"
                   name="dob"
                   placeholder="Date of birth"
+                  errors={errors.dob}
+                  touched={touched.dob}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-3">
+              <div className="col-md-3">
                 <TextField
                   label="Guardian"
                   type="text"
                   name="guardian"
                   placeholder="Guardian"
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="col-md-4">
+              <div className="col-md-4">
                 <TextField
                   label="Emergency Contact Number"
                   type="text"
                   name="emergencyContactNumber"
                   placeholder="emergencyContactNumber"
+                  errors={errors.emergencyContactNumber}
+                  touched={touched.emergencyContactNumber}
+                  editToggle={toggleEdit}
                 />
-              </Form.Group>
+              </div>
             </Row>
 
             <Button
@@ -292,6 +304,30 @@ const ClientDetails = ({ formSubmission }) => {
             >
               Submit
             </Button>
+
+            {updateButton && (
+              <Button
+                onClick={handleToggleEdit}
+                className="mt-3"
+                variant="warning"
+                style={{ marginLeft: "800px" }}
+              >
+                {toggleEdit ? "Edit" : "Cancel"}
+              </Button>
+            )}
+
+            {deleteButton && (
+              <Button
+                onClick={() => {
+                  removeClient(clientId);
+                }}
+                className="mt-3"
+                variant="danger"
+                style={{ marginLeft: "20px" }}
+              >
+                Delete
+              </Button>
+            )}
           </Form>
         )}
       </Formik>

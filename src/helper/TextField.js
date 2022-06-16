@@ -1,5 +1,4 @@
 import { Field } from "formik";
-import { Form } from "react-bootstrap";
 import React from "react";
 
 const TextField = ({
@@ -13,7 +12,7 @@ const TextField = ({
 }) => {
   return (
     <div>
-      <Form.Label> {label} </Form.Label>
+      <label className="from-group"> {label} </label>
       <Field
         className={`form-control ${errors && touched ? `is-invalid` : null}`}
         type={type}
@@ -21,7 +20,7 @@ const TextField = ({
         placeholder={placeholder}
         disabled={editToggle}
       />
-      {touched && errors ? <span className="error">{errors}</span> : null}
+      {touched && errors ? <span className="error">{errors}</span> : false}
     </div>
   );
 };

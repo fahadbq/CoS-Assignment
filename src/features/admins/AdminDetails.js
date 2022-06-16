@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { Row, Button } from "react-bootstrap";
 import TextField from "../../helper/TextField";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getAllAdmins } from "./AdminsSlice";
 import { asyncGetAdmin } from "../admins/AdminsSlice";
@@ -18,12 +18,21 @@ const AdminDetails = ({
   const { adminId } = useParams();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const admins = useSelector(getAllAdmins);
 
   useEffect(() => {
     dispatch(asyncGetAdmin(adminId));
   }, [dispatch, adminId]);
+
+  const findAdmin =
+    admins.data.length > 0 &&
+    admins.data.find((admin) => {
+      return admin.id === adminId;
+    });
+
+  console.log(findAdmin);
 
   const initialValues = {
     firstName: "",
@@ -57,31 +66,29 @@ const AdminDetails = ({
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("Enter your first name"),
     lastName: Yup.string().required("Enter your last name"),
-    title: Yup.string().required("Title Required!"),
-    extension: Yup.string().required("Extension Required!"),
-    primaryPhoneNumber: Yup.string().required("Phone number Required!"),
-    hours: Yup.string().required("Hours Required!"),
-    hireDate: Yup.string().required("Enter a date"),
-    person: Yup.object().shape({
-      email: Yup.string().required("Enter your email").email("Invalid email"),
-      secret: Yup.string()
-        .required("Enter your secret message")
-        .min(8, "Minimum 8 characters")
-        .max(12, "Maximum 12 characters"),
-      role: Yup.object().shape({
-        id: Yup.string().required("Enter your role Id"),
-      }),
-    }),
+    // title: Yup.string().required("Title Required!"),
+    // extension: Yup.string().required("Extension Required!"),
+    // primaryPhoneNumber: Yup.string().required("Phone number Required!"),
+    // hours: Yup.string().required("Hours Required!"),
+    // hireDate: Yup.string().required("Enter a date"),
+    // person: Yup.object().shape({
+    //   email: Yup.string().required("Enter your email").email("Invalid email"),
+    //   secret: Yup.string()
+    //     .required("Enter your secret message")
+    //     .min(8, "Minimum 8 characters")
+    //     .max(12, "Maximum 12 characters"),
+    //   role: Yup.object().shape({
+    //     id: Yup.string().required("Enter your role Id"),
+    //   }),
+    // }),
   });
 
-  const onSubmit = (values, onSubmitProps) => {
+  const onSubmit = (values) => {
     const onValuesSubmit = {
       adminFormData: values,
-      onSubmitProps,
+      navigate,
     };
-    console.log(onValuesSubmit);
     formSubmission(onValuesSubmit);
-    // dispatch(asyncUpdateAdmin(onValuesSubmit));
   };
 
   return (

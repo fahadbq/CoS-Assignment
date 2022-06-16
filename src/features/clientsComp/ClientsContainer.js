@@ -4,7 +4,7 @@ import { ListGroup } from "react-bootstrap";
 import { getAllClients } from "./ClientsSlice";
 import { Link } from "react-router-dom";
 
-import ClientForm from "./ClientForm";
+import AddForm from "./AddForm";
 
 const ClientsContainer = (props) => {
   const clients = useSelector(getAllClients);
@@ -22,7 +22,7 @@ const ClientsContainer = (props) => {
           })}
       </ListGroup>
 
-      <ClientForm />
+      <AddForm />
     </div>
   );
 };
