@@ -24,8 +24,8 @@ const Login = ({ handleAuth }) => {
     email: Yup.string().required("Enter your email").email("Invalid email"),
     password: Yup.string()
       .required("Enter your password")
-      .min(5, "Minimum 5 characters")
-      .matches(passwordRules, { message: "Create a stronger password" }),
+      .min(5, "Minimum 5 characters"),
+    // .matches(passwordRules, { message: "Create a stronger password" }),
   });
 
   return (
@@ -44,7 +44,6 @@ const Login = ({ handleAuth }) => {
             onSubmitProps,
             handleAuth,
             pushAccPath,
-            dispatch,
           };
 
           dispatch(loginAsyncUser(onValuesSubmit));

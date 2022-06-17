@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { asyncDeleteClient } from "../clientsComp/ClientsSlice";
-import { asyncUpdateClient } from "../clientsComp/ClientsSlice";
+import { asyncDeleteClient } from "../clients/ClientsSlice";
+import { asyncUpdateClient } from "../clients/ClientsSlice";
 
 import ClientDetails from "./ClientDetails";
 

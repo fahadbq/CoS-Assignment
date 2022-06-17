@@ -6,7 +6,7 @@ import { asyncUpdateAdmin } from "./AdminsSlice";
 
 import AdminDetails from "./AdminDetails";
 
-const EditAdmin = (props) => {
+const AdminEdit = (props) => {
   const [toggleEdit, SetToggleEdit] = useState(true);
 
   const navigate = useNavigate();
@@ -47,4 +47,4 @@ const EditAdmin = (props) => {
   );
 };
 
-export default EditAdmin;
+export default AdminEdit;

@@ -1,7 +1,7 @@
 import React from "react";
 import { asyncCreateClient } from "./ClientsSlice";
 import { useDispatch } from "react-redux";
-import ClientFrom from "../clientsComp/ClientForm";
+import ClientFrom from "./ClientForm";
 
 const AddForm = (props) => {
   const dispatch = useDispatch();

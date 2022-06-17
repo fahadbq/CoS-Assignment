@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllClients } from "../clientsComp/ClientsSlice";
-import { asyncGetClient } from "../clientsComp/ClientsSlice";
+import { getAllClients } from "./ClientsSlice";
+import { asyncGetClient } from "./ClientsSlice";
 
-import ClientForm from "../clientsComp/ClientForm";
+import ClientForm from "./ClientForm";
 
 const ClientDetails = ({
   formSubmission,

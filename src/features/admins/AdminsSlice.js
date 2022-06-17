@@ -3,13 +3,12 @@ import axios from "../../config/axios";
 
 export const getAsyncAdmins = createAsyncThunk(
   "admins/getAsyncAdmins",
-  async () => {
+  async (page) => {
     try {
-      const response = await axios.get("/admins", {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(
+        `/admins?page=${page ? page : 0}&limit=10`
+      );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       alert("getAdmins Error", error.message);
@@ -21,11 +20,7 @@ export const asyncGetAdmin = createAsyncThunk(
   "admins/asyncGetAdmin",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/admins/${id}`, {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(`/admins/${id}`);
       return response.data;
     } catch (error) {
       if (!error.response) {
@@ -41,11 +36,7 @@ export const createAsyncAdmin = createAsyncThunk(
   async ({ adminFormData, onSubmitProps }, { rejectWithValue }) => {
     console.log("reading form in asyn operation", adminFormData);
     try {
-      const response = await axios.post("/admins", adminFormData, {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.post("/admins", adminFormData);
       onSubmitProps.resetForm();
       return response.data;
     } catch (error) {
@@ -61,11 +52,7 @@ export const deleteAsyncAdmin = createAsyncThunk(
   "admins/deleteAsyncAdmins",
   async ({ id, navigate }) => {
     try {
-      await axios.delete(`/admins/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      await axios.delete(`/admins/${id}`);
       navigate("/admins");
       return Number(id);
     } catch (error) {
@@ -99,18 +86,24 @@ const initialState = {
   loading: true,
   data: [],
   errors: "",
-  oneData: {},
+  oneData: {}, // create another slice for a single amdmin details
+  hasNext: true,
 };
 
 const adminsSlice = createSlice({
   name: "admins",
   initialState,
+  reducers: {},
   extraReducers: {
     [getAsyncAdmins.fulfilled]: (state, action) => {
-      return { ...state, data: action.payload.data, loading: false };
+      if (action.payload.data.length > 1) {
+        state.data = [...action.payload.data, ...state.data];
+        state.loading = false;
+      }
+      state.hasNext = action.payload.meta.pagination.hasNext;
     },
     [getAsyncAdmins.rejected]: (state, action) => {
-      return { ...state, loading: true, status: action.payload };
+      state.loading = true;
     },
 
     //Get an Admin by id

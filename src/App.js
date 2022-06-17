@@ -3,9 +3,6 @@ import { useDispatch } from "react-redux";
 import "./App.css";
 import NavBar from "./NavBar";
 
-import { getAsyncAdmins } from "./features/admins/AdminsSlice";
-import { asyncGetClients } from "./features/clientsComp/ClientsSlice";
-
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
@@ -18,8 +15,6 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setUserLoggedIn(true);
-      dispatch(getAsyncAdmins());
-      dispatch(asyncGetClients());
     }
   }, [dispatch]);
 

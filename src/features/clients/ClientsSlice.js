@@ -1,18 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../config/axios";
 
-export const asyncGetClients = createAsyncThunk(
-  "clients/asyncGetClients",
-  async () => {
+export const asyncGetAllClients = createAsyncThunk(
+  "clients/asyncGetAllClients",
+  async (page) => {
     try {
-      const response = await axios.get("/clients", {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(
+        `/clients?page=${page ? page : 0}&limit=10`
+      );
+      console.log(response.data);
       return response.data;
     } catch (error) {
-      alert("getClient Error", error.message);
+      alert("getAdmins Error", error.message);
     }
   }
 );
@@ -21,11 +20,7 @@ export const asyncGetClient = createAsyncThunk(
   "clients/asyncGetClient",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/clients/${id}`, {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(`/clients/${id}`);
       return response.data;
     } catch (error) {
       if (!error.response) {
@@ -40,11 +35,7 @@ export const asyncCreateClient = createAsyncThunk(
   "clients/asyncCreateClient",
   async ({ clientFormData, onSubmitProps }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/clients", clientFormData, {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.post("/clients", clientFormData);
       onSubmitProps.resetForm();
       return response.data;
     } catch (error) {
@@ -60,11 +51,7 @@ export const asyncDeleteClient = createAsyncThunk(
   "clients/asyncDeleteClient",
   async ({ id, navigate }) => {
     try {
-      await axios.delete(`/clients/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      await axios.delete(`/clients/${id}`);
       navigate("/clients");
       return Number(id);
     } catch (error) {
@@ -77,11 +64,7 @@ export const asyncUpdateClient = createAsyncThunk(
   "clients/asyncUpdateClient",
   async ({ clientFormData }, { rejectWithValue }) => {
     try {
-      await axios.put(`/clients/${clientFormData.id}`, clientFormData, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      await axios.put(`/clients/${clientFormData.id}`, clientFormData);
       console.log(clientFormData);
       return clientFormData;
     } catch (error) {
@@ -98,17 +81,22 @@ const initialState = {
   data: [],
   errors: "",
   oneData: {},
+  hasNext: true,
 };
 
 const clientsSlice = createSlice({
   name: "clients",
   initialState,
   extraReducers: {
-    [asyncGetClients.fulfilled]: (state, action) => {
-      return { ...state, data: action.payload.data, loading: false };
+    [asyncGetAllClients.fulfilled]: (state, action) => {
+      if (action.payload.data.length > 1) {
+        // state.data = [...state.data, ...action.payload.data];
+        state.data = state.data.concat(action.payload.data);
+      }
+      state.hasNext = action.payload.meta.pagination.hasNext;
     },
-    [asyncGetClients.rejected]: (state, action) => {
-      return { ...state, loading: true, status: action.payload };
+    [asyncGetAllClients.rejected]: (state) => {
+      state.loading = true;
     },
 
     //Get an Client by id
@@ -139,7 +127,7 @@ const clientsSlice = createSlice({
     },
     [asyncDeleteClient.rejected]: (state) => {
       console.log("rejected");
-      return { ...state, loading: true };
+      state.loading = true;
     },
 
     //Update Client
@@ -152,10 +140,11 @@ const clientsSlice = createSlice({
           return { ...ele };
         }
       });
+      state.oneData = action.payload;
     },
     [asyncUpdateClient.rejected]: (state) => {
       console.log("rejected");
-      return { ...state, loading: true };
+      state.loading = true;
     },
   },
 });

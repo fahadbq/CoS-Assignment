@@ -5,11 +5,11 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 // Components
 import Login from "./features/login/Login";
 import PrivateRoute from "./features/privateRoute/PrivateRoute";
-import AdminsContainer from "./features/admins/AdminsList";
-import EditAdmin from "./features/admins/EditAdmin";
+import AdminsList from "./features/admins/AdminsList";
+import AdminEdit from "./features/admins/AdminEdit";
 
-import ClientsContainer from "./features/clientsComp/ClientsList";
-import EditClient from "./features/clientsComp/ClientEdit";
+import ClientsList from "./features/clients/ClientsList";
+import ClientEdit from "./features/clients/ClientEdit";
 
 const NavBar = ({ userLoggedIn, handleAuth }) => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
       <Navbar bg="dark" variant="dark">
         <Container className="flex-grow-1">
           <Nav className="nav__links">
-            {userLoggedIn ? (
+            {userLoggedIn && localStorage.getItem("token") ? (
               <>
                 <Nav.Link as={Link} to="/admins">
                   Admins
@@ -54,21 +54,18 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
       {/* Route session */}
       <Routes>
         <Route path="/" element={<Login handleAuth={handleAuth} />} />
-        <Route
-          path="/admins"
-          element={<PrivateRoute component={AdminsContainer} />}
-        />
+        <Route path="/admins" element={<AdminsList />} />
         <Route
           path="/admins/:adminId"
-          element={<PrivateRoute component={EditAdmin} />}
+          element={<PrivateRoute component={AdminEdit} />}
         />
         <Route
           path="/clients"
-          element={<PrivateRoute component={ClientsContainer} />}
+          element={<PrivateRoute component={ClientsList} />}
         />
         <Route
           path="/clients/:clientId"
-          element={<PrivateRoute component={EditClient} />}
+          element={<PrivateRoute component={ClientEdit} />}
         />
       </Routes>
     </div>
