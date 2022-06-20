@@ -54,19 +54,15 @@ const NavBar = ({ userLoggedIn, handleAuth }) => {
       {/* Route session */}
       <Routes>
         <Route path="/" element={<Login handleAuth={handleAuth} />} />
-        <Route path="/admins" element={<AdminsList />} />
-        <Route
-          path="/admins/:adminId"
-          element={<PrivateRoute component={AdminEdit} />}
-        />
-        <Route
-          path="/clients"
-          element={<PrivateRoute component={ClientsList} />}
-        />
-        <Route
-          path="/clients/:clientId"
-          element={<PrivateRoute component={ClientEdit} />}
-        />
+
+        {/* Private Route */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/admins" element={<AdminsList />} />
+          <Route path="/admins/:adminId" element={<AdminEdit />} />
+
+          <Route path="/clients" element={<ClientsList />} />
+          <Route path="/clients/:clientId" element={<ClientEdit />} />
+        </Route>
       </Routes>
     </div>
   );
