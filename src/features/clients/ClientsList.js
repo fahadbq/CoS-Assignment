@@ -19,7 +19,7 @@ const ClientsContainer = (props) => {
   }, [dispatch, page]);
 
   const fetchMoreData = () => {
-    if (clients.hasMore) {
+    if (clients.hasNext) {
       setPage(page + 1);
     }
   };

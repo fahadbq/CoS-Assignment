@@ -8,6 +8,7 @@ export const asyncAllClients = createAsyncThunk(
       const response = await axios.get(
         `/clients?page=${page ? page : 0}&limit=10`
       );
+      console.log(page);
       console.log(response.data);
       return response.data;
     } catch (error) {
