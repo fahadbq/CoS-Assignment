@@ -1,5 +1,5 @@
 import React from "react";
-import { asyncCreateClient } from "./ClientsSlice";
+import { asyncCreateClient } from "./clientsSlice";
 import { useDispatch } from "react-redux";
 import ClientFrom from "./ClientForm";
 

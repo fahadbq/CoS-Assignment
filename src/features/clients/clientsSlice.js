@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../config/axios";
 
-export const asyncGetAllClients = createAsyncThunk(
-  "clients/asyncGetAllClients",
+export const asyncAllClients = createAsyncThunk(
+  "clients/asyncAllClients",
   async (page) => {
     try {
       const response = await axios.get(
@@ -11,7 +11,7 @@ export const asyncGetAllClients = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error) {
-      alert("getAdmins Error", error.message);
+      alert("getClient Error", error.message);
     }
   }
 );
@@ -88,14 +88,14 @@ const clientsSlice = createSlice({
   name: "clients",
   initialState,
   extraReducers: {
-    [asyncGetAllClients.fulfilled]: (state, action) => {
+    [asyncAllClients.fulfilled]: (state, action) => {
       if (action.payload.data.length > 1) {
         // state.data = [...state.data, ...action.payload.data];
         state.data = state.data.concat(action.payload.data);
       }
       state.hasNext = action.payload.meta.pagination.hasNext;
     },
-    [asyncGetAllClients.rejected]: (state) => {
+    [asyncAllClients.rejected]: (state) => {
       state.loading = true;
     },
 

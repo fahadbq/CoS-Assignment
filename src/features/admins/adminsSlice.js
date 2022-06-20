@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../config/axios";
 
-export const getAsyncAdmins = createAsyncThunk(
-  "admins/getAsyncAdmins",
+export const asyncAllAdmins = createAsyncThunk(
+  "admins/asyncAllAdmins",
   async (page) => {
     try {
       const response = await axios.get(
@@ -31,10 +31,9 @@ export const asyncGetAdmin = createAsyncThunk(
   }
 );
 
-export const createAsyncAdmin = createAsyncThunk(
-  "admins/createAsyncAdmin",
+export const asyncCreateAdmin = createAsyncThunk(
+  "admins/asyncCreateAdmin",
   async ({ adminFormData, onSubmitProps }, { rejectWithValue }) => {
-    console.log("reading form in asyn operation", adminFormData);
     try {
       const response = await axios.post("/admins", adminFormData);
       onSubmitProps.resetForm();
@@ -48,8 +47,8 @@ export const createAsyncAdmin = createAsyncThunk(
   }
 );
 
-export const deleteAsyncAdmin = createAsyncThunk(
-  "admins/deleteAsyncAdmins",
+export const asyncDeleteAdmin = createAsyncThunk(
+  "admins/asyncDeleteAdmin",
   async ({ id, navigate }) => {
     try {
       await axios.delete(`/admins/${id}`);
@@ -86,7 +85,7 @@ const initialState = {
   loading: true,
   data: [],
   errors: "",
-  oneData: {}, // create another slice for a single amdmin details
+  oneData: {}, // create another slice for a single admin details
   hasNext: true,
 };
 
@@ -95,14 +94,14 @@ const adminsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [getAsyncAdmins.fulfilled]: (state, action) => {
+    [asyncAllAdmins.fulfilled]: (state, action) => {
       if (action.payload.data.length > 1) {
-        state.data = [...action.payload.data, ...state.data];
+        state.data = [...action.payload.data, state.data];
         state.loading = false;
       }
       state.hasNext = action.payload.meta.pagination.hasNext;
     },
-    [getAsyncAdmins.rejected]: (state, action) => {
+    [asyncAllAdmins.rejected]: (state, action) => {
       state.loading = true;
     },
 
@@ -117,22 +116,22 @@ const adminsSlice = createSlice({
     },
 
     // Create Admin
-    [createAsyncAdmin.fulfilled]: (state, action) => {
+    [asyncCreateAdmin.fulfilled]: (state, action) => {
       console.log("fulfilled");
       state.data = [action.payload, ...state.data];
       state.loading = false;
     },
-    [createAsyncAdmin.rejected]: (state, action) => {
+    [asyncCreateAdmin.rejected]: (state, action) => {
       state.errors = action.payload.message;
       alert(action.payload.message);
     },
 
     //Delete Admin
-    [deleteAsyncAdmin.fulfilled]: (state, action) => {
+    [asyncDeleteAdmin.fulfilled]: (state, action) => {
       state.loading = false;
       state.data = state.data.filter((ele) => ele.id !== action.payload);
     },
-    [deleteAsyncAdmin.rejected]: (state) => {
+    [asyncDeleteAdmin.rejected]: (state) => {
       console.log("rejected");
       return { ...state, loading: true };
     },

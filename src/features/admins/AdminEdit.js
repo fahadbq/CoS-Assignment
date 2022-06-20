@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteAsyncAdmin } from "./AdminsSlice";
-import { asyncUpdateAdmin } from "./AdminsSlice";
-
+import { asyncDeleteAdmin, asyncUpdateAdmin } from "./adminsSlice";
 import AdminDetails from "./AdminDetails";
 
 const AdminEdit = (props) => {
@@ -31,7 +29,7 @@ const AdminEdit = (props) => {
 
     const confirm = window.confirm("Are you sure you want to delete?");
     if (confirm) {
-      dispatch(deleteAsyncAdmin(deleteValues));
+      dispatch(asyncDeleteAdmin(deleteValues));
     }
   };
 

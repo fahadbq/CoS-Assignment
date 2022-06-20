@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ListGroup } from "react-bootstrap";
-import { getAllAdmins, getAsyncAdmins } from "./AdminsSlice";
+import { ListGroup, NavLink } from "react-bootstrap";
+import { getAllAdmins, asyncAllAdmins } from "./adminsSlice";
 import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -15,7 +15,7 @@ const AdminsContainer = (props) => {
   const admins = useSelector(getAllAdmins);
 
   useEffect(() => {
-    dispatch(getAsyncAdmins(page));
+    dispatch(asyncAllAdmins(page));
   }, [dispatch, page]);
 
   const fetchMoreData = () => {
@@ -38,10 +38,10 @@ const AdminsContainer = (props) => {
           {admins.data.map((admin) => {
             return (
               <ListGroup.Item key={admin.id}>
-                <Link to={`/admins/${admin.id}`}>
+                <NavLink as={Link} to={`${admin.id}`} variant="info">
                   {admin?.firstName}
                   {admin?.lastName}
-                </Link>
+                </NavLink>
               </ListGroup.Item>
             );
           })}

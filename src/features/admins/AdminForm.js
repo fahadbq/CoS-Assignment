@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { createAsyncAdmin } from "./AdminsSlice";
+import { asyncCreateAdmin } from "./adminsSlice";
 
 //Textfield component
 import TextField from "../helper/TextField";
@@ -66,7 +66,7 @@ const AdminDetails = (props) => {
       adminFormData: FormValues,
       onSubmitProps,
     };
-    dispatch(createAsyncAdmin(values));
+    dispatch(asyncCreateAdmin(values));
   };
 
   return (

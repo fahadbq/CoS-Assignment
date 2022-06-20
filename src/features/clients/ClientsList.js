@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ListGroup } from "react-bootstrap";
-import { getAllClients } from "./ClientsSlice";
+import { ListGroup, NavLink } from "react-bootstrap";
+import { getAllClients, asyncAllClients } from "./clientsSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
-import { asyncGetAllClients } from "./ClientsSlice";
 
 import AddForm from "./AddForm";
 
@@ -16,7 +15,7 @@ const ClientsContainer = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(asyncGetAllClients(page));
+    dispatch(asyncAllClients(page));
   }, [dispatch, page]);
 
   const fetchMoreData = () => {
@@ -38,10 +37,10 @@ const ClientsContainer = (props) => {
           {clients.data.map((client) => {
             return (
               <ListGroup.Item key={client.id}>
-                <Link to={`/clients/${client.id}`}>
+                <NavLink as={Link} to={`${client.id}`}>
                   {client?.firstName}
                   {client?.lastName}
-                </Link>
+                </NavLink>
               </ListGroup.Item>
             );
           })}

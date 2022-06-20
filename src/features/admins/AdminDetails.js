@@ -4,10 +4,10 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { Form, Row, Button } from "react-bootstrap";
 import TextField from "../helper/TextField";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getAllAdmins } from "./AdminsSlice";
-import { asyncGetAdmin } from "../admins/AdminsSlice";
+import { getAllAdmins } from "./adminsSlice";
+import { asyncGetAdmin } from "../admins/adminsSlice";
 
 const AdminDetails = ({
   formSubmission,
@@ -103,7 +103,7 @@ const AdminDetails = ({
                   placeholder="Enter your First Name"
                   errors={errors.firstName}
                   touched={touched.firstName}
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -115,7 +115,7 @@ const AdminDetails = ({
                   placeholder="Enter your Last Name"
                   errors={errors.lastName}
                   touched={touched.lastName}
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
             </Row>
@@ -126,7 +126,7 @@ const AdminDetails = ({
                   type="text"
                   name="primaryPhoneNumber"
                   placeholder="Enter your Phone Number"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -136,7 +136,7 @@ const AdminDetails = ({
                   type="text"
                   name="extension"
                   placeholder="Extension"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -146,7 +146,7 @@ const AdminDetails = ({
                   type="text"
                   name="title"
                   placeholder="Title"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -156,7 +156,7 @@ const AdminDetails = ({
                   type="date"
                   name="hireDate"
                   placeholder="HireDate"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
             </Row>
@@ -169,7 +169,7 @@ const AdminDetails = ({
                   placeholder="Please enter your Email"
                   errors={errors.person?.email}
                   touched={touched.person?.email}
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -179,7 +179,7 @@ const AdminDetails = ({
                   type="text"
                   name="hours"
                   placeholder="Hours"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -191,7 +191,7 @@ const AdminDetails = ({
                   placeholder="Id"
                   errors={errors.person?.role?.id}
                   touched={touched.person?.role?.id}
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
             </Row>
@@ -202,7 +202,7 @@ const AdminDetails = ({
                   type="text"
                   name="address.address1"
                   placeholder="Address"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -212,7 +212,7 @@ const AdminDetails = ({
                   type="text"
                   name="address.address2"
                   placeholder="Address"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -222,7 +222,7 @@ const AdminDetails = ({
                   type="text"
                   name="address.zipCode"
                   placeholder="Zip Code"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
             </Row>
@@ -233,7 +233,7 @@ const AdminDetails = ({
                   type="text"
                   name="address.city"
                   placeholder="City"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -243,7 +243,7 @@ const AdminDetails = ({
                   type="text"
                   name="address.state"
                   placeholder="State"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -253,7 +253,7 @@ const AdminDetails = ({
                   type="number"
                   name="practices[0].id"
                   placeholder="Id"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
 
@@ -263,7 +263,7 @@ const AdminDetails = ({
                   type="text"
                   name="practices[0].name"
                   placeholder="Name"
-                  toggleEdit={toggleEdit}
+                  toggle_edit={toggleEdit}
                 />
               </Form.Group>
             </Row>
@@ -293,6 +293,8 @@ const AdminDetails = ({
           </Form>
         )}
       </Formik>
+
+      <Outlet />
     </div>
   );
 };
