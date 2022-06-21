@@ -63,10 +63,11 @@ export const asyncDeleteClient = createAsyncThunk(
 
 export const asyncUpdateClient = createAsyncThunk(
   "clients/asyncUpdateClient",
-  async ({ clientFormData }, { rejectWithValue }) => {
+  async ({ clientFormData, navigate }, { rejectWithValue }) => {
     try {
       await axios.put(`/clients/${clientFormData.id}`, clientFormData);
       console.log(clientFormData);
+      navigate("/clients");
       return clientFormData;
     } catch (error) {
       if (!error.response) {

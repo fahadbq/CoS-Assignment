@@ -92,6 +92,7 @@ const ClientDetails = ({
     const formData = {
       clientFormData: formValues,
       onSubmitProps,
+      navigate,
     };
     formSubmission(formData);
   };
