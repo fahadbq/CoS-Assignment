@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ListGroup, NavLink } from "react-bootstrap";
-import { getAllAdmins, asyncAllAdmins } from "./adminsSlice";
+import { getAllAdmins, asyncAllAdmins, resetData } from "./adminsSlice";
 import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -13,6 +13,10 @@ const AdminsContainer = (props) => {
   const dispatch = useDispatch();
 
   const admins = useSelector(getAllAdmins);
+
+  useEffect(() => {
+    dispatch(resetData());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(asyncAllAdmins(page));

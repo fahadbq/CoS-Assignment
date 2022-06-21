@@ -92,7 +92,11 @@ const initialState = {
 const adminsSlice = createSlice({
   name: "admins",
   initialState,
-  reducers: {},
+  reducers: {
+    resetData: (state) => {
+      state.data = [];
+    },
+  },
   extraReducers: {
     [asyncAllAdmins.fulfilled]: (state, action) => {
       if (action.payload.data.length > 1) {
@@ -155,5 +159,7 @@ const adminsSlice = createSlice({
 });
 
 export const getAllAdmins = (state) => state.admins;
+
+export const { resetData } = adminsSlice.actions;
 
 export default adminsSlice.reducer;

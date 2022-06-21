@@ -89,6 +89,11 @@ const initialState = {
 const clientsSlice = createSlice({
   name: "clients",
   initialState,
+  reducers: {
+    resetData: (state) => {
+      state.data = [];
+    },
+  },
   extraReducers: {
     [asyncAllClients.fulfilled]: (state, action) => {
       if (action.payload.data.length > 1) {
