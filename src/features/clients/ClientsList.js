@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ListGroup, NavLink } from "react-bootstrap";
-import { getAllClients, asyncAllClients } from "./clientsSlice";
+import { getAllClients, asyncAllClients, resetData } from "./clientsSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 
@@ -13,6 +13,10 @@ const ClientsContainer = (props) => {
   const clients = useSelector(getAllClients);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetData());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(asyncAllClients(page));
