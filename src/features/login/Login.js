@@ -10,7 +10,7 @@ import { loginAsyncUser } from "./loginSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ handleAuth }) => {
-  const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+  // const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

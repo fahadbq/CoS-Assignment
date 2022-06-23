@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
 
@@ -11,8 +11,20 @@ import AdminEdit from "./features/admins/AdminEdit";
 import ClientsList from "./features/clients/ClientsList";
 import ClientEdit from "./features/clients/ClientEdit";
 
-const NavBar = ({ userLoggedIn, handleAuth }) => {
+const NavBar = (props) => {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+
   const navigate = useNavigate();
+
+  const handleAuth = () => {
+    return setUserLoggedIn(true);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setUserLoggedIn(true);
+    }
+  }, []);
 
   const handleLogout = () => {
     const confirm = window.confirm("are you sure");

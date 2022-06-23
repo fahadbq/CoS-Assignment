@@ -158,4 +158,6 @@ const clientsSlice = createSlice({
 
 export const getAllClients = (state) => state.clients;
 
+export const { resetData } = clientsSlice.actions
+
 export default clientsSlice.reducer;

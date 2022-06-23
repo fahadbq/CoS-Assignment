@@ -10,3 +10,5 @@ export const store = configureStore({
     clients: clientsReducer,
   },
 });
+
+console.log(store.reducer)
