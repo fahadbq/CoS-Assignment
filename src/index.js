@@ -15,9 +15,9 @@ store.subscribe(() => {
 });
 
 root.render(
+  <Router>
     <Provider store={store}>
-      <Router>
       <App />
-      </Router>
     </Provider>
+  </Router>
 );
