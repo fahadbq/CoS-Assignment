@@ -12,8 +12,11 @@ const TextField = ({
 }) => {
   return (
     <div>
-      <label className="from-group"> {label} </label>
+      <label htmlFor={label} className="from-group">
+        {label}
+      </label>
       <Field
+        id={label}
         className={`form-control ${errors && touched ? `is-invalid` : null}`}
         type={type}
         name={name}

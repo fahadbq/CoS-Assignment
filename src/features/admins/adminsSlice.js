@@ -99,11 +99,12 @@ const adminsSlice = createSlice({
   },
   extraReducers: {
     [asyncAllAdmins.fulfilled]: (state, action) => {
-      if (action.payload.data.length > 1) {
+      if (action.payload && action.payload.data.length > 1) {
         state.data = [...state.data, ...action.payload.data];
         state.loading = false;
       }
-      state.hasNext = action.payload.meta.pagination.hasNext;
+      if (action.payload)
+        state.hasNext = action.payload.meta.pagination.hasNext;
     },
     [asyncAllAdmins.rejected]: (state) => {
       state.loading = true;

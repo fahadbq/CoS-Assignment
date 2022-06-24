@@ -1,43 +1,41 @@
-import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { render, screen, fireEvent } from '../../test.util'
-import Login from './Login'
-
-const logIn = <Router><Login /></Router>
+import React from "react";
+import { render, screen, fireEvent } from "../../test.util";
+import Login from "./Login";
 
 describe("Testing login form component", () => {
+  test("Email should have place holder", () => {
+    render(<Login />);
 
-    test("Email should have place holder", () => {
+    const inputNode = screen.getByPlaceholderText("Enter your Email");
 
-        render(logIn)
+    expect(inputNode.getAttribute("name")).toBe("email");
+  });
 
-        const inputNode = screen.getByPlaceholderText('Enter your Email')
+  test("Email input should accept text", () => {
+    render(<Login />);
 
-        expect(inputNode.getAttribute("name")).toBe('email');
-    })
+    const emailInputNode = screen.getByPlaceholderText("Enter your Email");
 
-    test("Email input should accept text", () => {
+    expect(emailInputNode.value).toMatch("");
+    fireEvent.change(emailInputNode, { target: { value: "testing" } });
+    expect(emailInputNode.value).toMatch("testing");
+  });
 
-        render(logIn)
+  test("Login button should be enabled if there are input values", () => {
+    render(<Login />);
 
-        const emailInputNode = screen.getByPlaceholderText('Enter your Email')
+    const emailInputNode = screen.getByPlaceholderText("Enter your Email");
+    const passwordInputNode = screen.getByPlaceholderText(
+      "Enter your Password"
+    );
+    const loginButton = screen.getByRole("button", { name: "Login" });
 
-        expect(emailInputNode.value).toMatch("");
-        fireEvent.change(emailInputNode, {target: {value: 'testing'}})
-        expect(emailInputNode.value).toMatch('testing')
-    })
+    fireEvent.change(emailInputNode, {
+      target: { value: "Testing@gmail.com" },
+    });
+    fireEvent.change(passwordInputNode, { target: { value: "secret@123" } });
 
-    test('Login button should be enabled if there are input values', () => {
-        render(logIn)
-
-        const emailInputNode = screen.getByPlaceholderText('Enter your Email')
-        const passwordInputNode = screen.getByPlaceholderText('Enter your Password')
-        const loginButton = screen.getByRole("button", { name: "Login"})
-
-        fireEvent.change(emailInputNode, {target: { value: "Testing@gmail.com"}})
-        fireEvent.change(passwordInputNode, {target: { value: "secret@123"}})
-
-        expect(loginButton).toBeEnabled();
-        fireEvent.click(loginButton)
-    })
-})
+    expect(loginButton).toBeEnabled();
+    fireEvent.click(loginButton);
+  });
+});

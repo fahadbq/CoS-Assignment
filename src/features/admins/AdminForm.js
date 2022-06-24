@@ -47,7 +47,6 @@ const AdminDetails = (props) => {
     title: Yup.string().required("Title Required!"),
     extension: Yup.string().required("Extension Required!"),
     primaryPhoneNumber: Yup.string().required("Phone number Required!"),
-    hours: Yup.string().required("Hours Required!"),
     hireDate: Yup.string().required("Enter a date"),
     person: Yup.object().shape({
       email: Yup.string().required("Enter your email").email("Invalid email"),
@@ -179,14 +178,12 @@ const AdminDetails = (props) => {
                   type="text"
                   name="hours"
                   placeholder="Hours"
-                  errors={errors.hours}
-                  touched={touched.hours}
                 />
               </Form.Group>
 
               <Form.Group className="col-md-2">
                 <TextField
-                  label="Id"
+                  label="Role Id"
                   type="number"
                   name="person.role.id"
                   placeholder="Id"
