@@ -12,7 +12,7 @@ export const asyncAllClients = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error) {
-      alert("getClient Error", error.message);
+      console.log("getClient Error", error);
     }
   }
 );
@@ -96,11 +96,13 @@ const clientsSlice = createSlice({
   },
   extraReducers: {
     [asyncAllClients.fulfilled]: (state, action) => {
-      if (action.payload.data.length > 1) {
+      if (action.payload && action.payload.data.length > 1) {
         // state.data = [...state.data, ...action.payload.data];
         state.data = state.data.concat(action.payload.data);
       }
-      state.hasNext = action.payload.meta.pagination.hasNext;
+      if (action.payload) {
+        state.hasNext = action.payload.meta.pagination.hasNext;
+      }
     },
     [asyncAllClients.rejected]: (state) => {
       state.loading = true;
@@ -158,6 +160,6 @@ const clientsSlice = createSlice({
 
 export const getAllClients = (state) => state.clients;
 
-export const { resetData } = clientsSlice.actions
+export const { resetData } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

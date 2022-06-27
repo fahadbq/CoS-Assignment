@@ -11,7 +11,7 @@ export const asyncAllAdmins = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error) {
-      alert("getAdmins Error", error.message);
+      console.loading("getAdmins Error", error);
     }
   }
 );

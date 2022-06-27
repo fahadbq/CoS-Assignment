@@ -1,104 +1,113 @@
 import React from "react";
-import { render, screen } from "../../test.util";
+import { render, screen } from "../../utils/test.util";
 import userEvent from "@testing-library/user-event";
 import AdminsList from "./AdminsList";
 
-test("First name should accept text input", async () => {
+test("First name should render, be empty and accept text input", async () => {
   render(<AdminsList />);
 
-  const firstNameInput = screen.getByLabelText(/First Name/i);
+  const firstNameNode = screen.getByLabelText(/First Name/i);
 
-  expect(firstNameInput.value).toMatch("");
+  expect(firstNameNode).toBeInTheDocument();
 
-  await userEvent.type(firstNameInput, "Adam");
+  expect(firstNameNode.value).toBe("");
 
-  expect(firstNameInput.value).toMatch("Adam");
+  await userEvent.type(firstNameNode, "Adam");
+  expect(firstNameNode.value).toBe("Adam");
 });
 
-test("Last name should accept text input", async () => {
+test("Last name should render, be empty and accept text input", async () => {
   render(<AdminsList />);
-  const lastNameInput = screen.getByLabelText(/Last Name/i);
+  const lastNameNode = screen.getByLabelText(/Last Name/i);
 
-  expect(lastNameInput.value).toMatch("");
-  await userEvent.type(lastNameInput, "smith");
+  expect(lastNameNode).toBeInTheDocument();
 
-  expect(lastNameInput.value).toMatch("smith");
+  expect(lastNameNode.value).toBe("");
+
+  await userEvent.type(lastNameNode, "smith");
+  expect(lastNameNode.value).toBe("smith");
 });
 
-test("Phone Number should accept text input", async () => {
+test("Phone Number should render, be empty and accept text input", async () => {
   render(<AdminsList />);
-  const phoneNumberInput = screen.getByLabelText(/Phone Number/i);
+  const phoneNumberNode = screen.getByLabelText(/Phone Number/i);
 
-  expect(phoneNumberInput.value).toMatch("");
-  await userEvent.type(phoneNumberInput, "9888891123");
+  expect(phoneNumberNode).toBeInTheDocument();
 
-  expect(phoneNumberInput.value).toMatch("9888891123");
+  expect(phoneNumberNode.value).toBe("");
+
+  await userEvent.type(phoneNumberNode, "9888891123");
+  expect(phoneNumberNode.value).toBe("9888891123");
 });
 
-test("Extension should accept text input", async () => {
+test("Extension should render, be empty and accept text input", async () => {
   render(<AdminsList />);
-  const extensionInput = screen.getByLabelText(/Extension/i);
+  const extensionNode = screen.getByLabelText(/Extension/i);
 
-  expect(extensionInput.value).toMatch("");
-  await userEvent.type(extensionInput, "1104");
+  expect(extensionNode).toBeInTheDocument();
 
-  expect(extensionInput.value).toMatch("1104");
+  expect(extensionNode.value).toBe("");
+
+  await userEvent.type(extensionNode, "1104");
+  expect(extensionNode.value).toBe("1104");
 });
 
-test("Title should accept text input", async () => {
+test("Title should render, be empty and accept text input", async () => {
   render(<AdminsList />);
-  const titleInput = screen.getByLabelText(/Title/i);
+  const titleNode = screen.getByLabelText(/Title/i);
 
-  expect(titleInput.value).toMatch("");
-  await userEvent.type(titleInput, "Executive");
+  expect(titleNode).toBeInTheDocument();
 
-  expect(titleInput.value).toMatch("Executive");
+  expect(titleNode.value).toBe("");
+
+  await userEvent.type(titleNode, "Executive");
+  expect(titleNode.value).toBe("Executive");
 });
 
-test("HireDate should accept text input", async () => {
+test("HireDate should render, be empty and accept text input", async () => {
   render(<AdminsList />);
-  const hireDateInput = screen.getByLabelText(/Hire Date/i);
+  const hireDateNode = screen.getByLabelText(/Hire Date/i);
 
-  expect(hireDateInput.value).toMatch("");
-  await userEvent.type(hireDateInput, "2022-06-01");
+  expect(hireDateNode.value).toBe("");
+  await userEvent.type(hireDateNode, "2022-06-01");
 
-  expect(hireDateInput.value).toMatch("2022-06-01");
+  expect(hireDateNode.value).toBe("2022-06-01");
 });
 
-test("Email should accept text input", async () => {
+test("Email should render, be empty and accept text input", async () => {
   render(<AdminsList />);
-  const emailInput = screen.getByLabelText(/Email/i);
-  const submitInput = screen.getByRole("button", { name: /submit/i });
+  const emailNode = screen.getByLabelText(/Email/i);
 
-  expect(emailInput.value).toMatch("");
-  await userEvent.type(emailInput, "Adam144@gmail.com");
+  expect(emailNode).toBeInTheDocument();
 
-  expect(emailInput.value).toMatch("Adam144@gmail.com");
-  await userEvent.click(submitInput);
+  expect(emailNode.value).toBe("");
+  await userEvent.type(emailNode, "Adam144@gmail.com");
+
+  expect(emailNode.value).toBe("Adam144@gmail.com");
 });
 
-test("Secret should accept text input", async () => {
+test("Secret should render, be empty and accept text input", async () => {
   render(<AdminsList />);
 
-  const secretInput = screen.getByLabelText(/Secret/i);
-  const submitInput = screen.getByRole("button", { name: /submit/i });
+  const secretNode = screen.getByLabelText(/Secret/i);
 
-  expect(secretInput.value).toMatch("");
-  await userEvent.type(secretInput, "secret1234");
+  expect(secretNode).toBeInTheDocument();
 
-  expect(secretInput.value).toMatch("secret1234");
-  await userEvent.click(submitInput);
+  expect(secretNode.value).toBe("");
+  await userEvent.type(secretNode, "secret1234");
+
+  expect(secretNode.value).toBe("secret1234");
 });
 
-test("Id should accept text input", async () => {
+test("Id should render, be empty and accept text input", async () => {
   render(<AdminsList />);
 
-  const idInput = screen.getByLabelText(/Role Id/i);
-  const submitInput = screen.getByRole("button", { name: /submit/i });
+  const idNode = screen.getByLabelText(/Role Id/i);
 
-  expect(idInput.value).toMatch("0");
-  await userEvent.type(idInput, "1");
+  expect(idNode).toBeInTheDocument();
 
-  expect(idInput.value).toMatch("1");
-  await userEvent.click(submitInput);
+  expect(idNode.value).toBe("0");
+  await userEvent.type(idNode, "1");
+
+  expect(idNode.value).toBe("1");
 });

@@ -1,41 +1,49 @@
 import React from "react";
-import { render, screen, fireEvent } from "../../test.util";
+import { render, screen } from "../../utils/test.util";
+import userEvent from "@testing-library/user-event";
 import Login from "./Login";
 
 describe("Testing login form component", () => {
-  test("Email should have place holder", () => {
+  test("Email should render, be empty and accept text input", async () => {
     render(<Login />);
 
-    const inputNode = screen.getByPlaceholderText("Enter your Email");
+    const emailNode = screen.getByPlaceholderText("Enter your Email");
 
-    expect(inputNode.getAttribute("name")).toBe("email");
+    expect(emailNode).toBeInTheDocument();
+
+    expect(emailNode.value).toBe("");
+
+    await userEvent.type(emailNode, "Testing!@gmail.com");
+
+    expect(emailNode.value).toBe("Testing!@gmail.com");
   });
 
-  test("Email input should accept text", () => {
+  test("Password should render, be empty and accept text input", async () => {
     render(<Login />);
 
-    const emailInputNode = screen.getByPlaceholderText("Enter your Email");
+    const passwordNode = screen.getByPlaceholderText("Enter your Password");
 
-    expect(emailInputNode.value).toMatch("");
-    fireEvent.change(emailInputNode, { target: { value: "testing" } });
-    expect(emailInputNode.value).toMatch("testing");
+    expect(passwordNode).toBeInTheDocument();
+
+    expect(passwordNode.value).toBe("");
+
+    await userEvent.type(passwordNode, "secret@123");
+    expect(passwordNode.value).toBe("secret@123");
   });
 
-  test("Login button should be enabled if there are input values", () => {
+  test("Login button should be enabled if there are input values", async () => {
     render(<Login />);
 
-    const emailInputNode = screen.getByPlaceholderText("Enter your Email");
-    const passwordInputNode = screen.getByPlaceholderText(
-      "Enter your Password"
-    );
+    const emailNode = screen.getByPlaceholderText("Enter your Email");
+    const passwordNode = screen.getByPlaceholderText("Enter your Password");
     const loginButton = screen.getByRole("button", { name: "Login" });
 
-    fireEvent.change(emailInputNode, {
-      target: { value: "Testing@gmail.com" },
-    });
-    fireEvent.change(passwordInputNode, { target: { value: "secret@123" } });
+    expect(loginButton).toBeDisabled();
+
+    await userEvent.type(emailNode, "Testing@gmail.com");
+    await userEvent.type(passwordNode, "secret@123");
 
     expect(loginButton).toBeEnabled();
-    fireEvent.click(loginButton);
+    await userEvent.click(loginButton);
   });
 });

@@ -6,9 +6,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 // Import your own reducer
-import userReducer from "./features/login/loginSlice";
-import adminsReducer from "./features/admins/adminsSlice";
-import clientsReducer from "./features/clients/clientsSlice";
+import userReducer from "./../features/login/loginSlice";
+import adminsReducer from "./../features/admins/adminsSlice";
+import clientsReducer from "./../features/clients/clientsSlice";
 
 const rootReducer = {
   user: userReducer,

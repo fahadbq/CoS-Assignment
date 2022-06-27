@@ -215,7 +215,7 @@ const ClientDetails = ({
                   label="Phone Number 1"
                   type="text"
                   name="primaryPhoneNumber"
-                  placeholder="Please enter your Mobile Number"
+                  placeholder="Enter your Mobile Number"
                   errors={errors.primaryPhoneNumber}
                   touched={touched.primaryPhoneNumber}
                   toggle_edit={toggleEdit}
@@ -227,7 +227,7 @@ const ClientDetails = ({
                   label="Phone Number 2"
                   type="text"
                   name="secondaryPhoneNumber"
-                  placeholder="Please enter your Mobile Number"
+                  placeholder="Enter your Mobile Number"
                   toggle_edit={toggleEdit}
                 />
               </Form.Group>
@@ -236,7 +236,7 @@ const ClientDetails = ({
             <Row className="mb-4">
               <Form.Group className="col-md-5">
                 <TextField
-                  label="Address 1 "
+                  label="Address 1"
                   type="text"
                   name="address.address1"
                   placeholder="Address"
